@@ -75,7 +75,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 	unsigned char character;
 
-	while (inputStream >> std::noskipws >> character)
+	while (inputStream >> noskipws >> character)
 	{
 		frequencyTable[character]++;
 
