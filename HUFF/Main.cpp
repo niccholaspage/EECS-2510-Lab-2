@@ -52,7 +52,14 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
     }
     else if (command == "t")
     {
-        cout << "tree" << endl;
+        if (argc < 4)
+        {
+            cout << "not enough arguments!" << endl;
+        }
+        else
+        {
+            huffman->MakeTreeBuilder(argv[2], argv[3]);
+        }
     }
     else if (command == "et")
     {

@@ -8,8 +8,8 @@ using namespace std;
 class Huffman {
 public:
 	struct treenode {
-		char symbol;
-		int weight;
+		unsigned char symbol = NULL;
+		int weight = 0;
 		treenode* leftChild = nullptr;
 		treenode* rightChild = nullptr;
 	};
@@ -22,4 +22,10 @@ public:
 	void DecodeFile(string inputFile, string outputFile);
 	void EncodeFileWithTree(string inputFile, string treeFile, string outputFile);
 	void DisplayHelp();
+private:
+	const static int amountOfCharacters = 256;
+
+	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
+
+	void printStuff(treenode* node, string spaces);
 };

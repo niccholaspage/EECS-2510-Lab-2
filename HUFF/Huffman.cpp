@@ -11,11 +11,36 @@ Huffman::~Huffman()
 
 }
 
-void Huffman::MakeTreeBuilder(string inputFile, string OutputFile)
+int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex)
 {
+	int smallestNodeIndex = -1;
+	int smallestWeight = INT_MAX;
+
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		if (skipIndex == i)
+		{
+			continue;
+		}
+
+		treenode* node = nodes[i];
+
+		if (node == nullptr)
+		{
+			continue;
+		}
+
+		if (node->weight < smallestWeight)
+		{
+			smallestNodeIndex = i;
+			smallestWeight = node->weight;
+		}
+	}
+
+	return smallestNodeIndex;
 }
 
-void Huffman::EncodeFile(string inputFile, string outputFile)
+void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 {
 	ifstream inputStream;
 
@@ -39,20 +64,125 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 		return;
 	}
 
+	int frequencyTable[amountOfCharacters];
+
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		frequencyTable[i] = 0;
+	}
+
+	int charactersRead = 0;
+
 	while (!inputStream.eof())
 	{
-		int byte = inputStream.get();
+		unsigned char character = inputStream.get();
 
-		cout << byte;
+		frequencyTable[character]++;
 
-		outputStream << byte;
+		charactersRead++;
 	}
+
+	treenode* nodes[amountOfCharacters];
+
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		unsigned char symbol = i;
+
+		treenode* node = new treenode;
+
+		node->symbol = symbol;
+		node->weight = frequencyTable[symbol];
+		node->leftChild = nullptr;
+		node->rightChild = nullptr;
+
+		nodes[i] = node;
+	}
+
+	while (nodes[0]->weight != charactersRead)
+	{
+		int smallestNodeIndex = getIndexOfSmallestNode(nodes, -1);
+		int nextSmallestNodeIndex = getIndexOfSmallestNode(nodes, smallestNodeIndex);
+
+		treenode* parent = new treenode;
+
+		treenode* smallestNode = nodes[smallestNodeIndex];
+		treenode* nextSmallestNode = nodes[nextSmallestNodeIndex];
+
+		//outputStream << "We are looking at indexes " << smallestNodeIndex << " & " << nextSmallestNodeIndex << ":" << endl;
+
+		//outputStream << "Symbol: " << smallestNode->symbol << " - " << smallestNode->weight << endl;
+
+		//outputStream << "Symbol: " << nextSmallestNode->symbol << " - " << nextSmallestNode->weight << endl;
+
+		parent->symbol = NULL;
+		parent->weight = smallestNode->weight + nextSmallestNode->weight;
+
+		if (smallestNodeIndex < nextSmallestNodeIndex)
+		{
+			parent->leftChild = smallestNode;
+			parent->rightChild = nextSmallestNode;
+			nodes[smallestNodeIndex] = parent;
+			nodes[nextSmallestNodeIndex] = nullptr;
+		}
+		else
+		{
+			parent->leftChild = nextSmallestNode;
+			parent->rightChild = smallestNode;
+			nodes[nextSmallestNodeIndex] = parent;
+			nodes[smallestNodeIndex] = nullptr;
+		}
+
+		//outputStream << "Set " << smallestNodeIndex << " to parent, and " << nextSmallestNodeIndex << " to null" << endl;
+		//outputStream << "Combined weight: " << parent->weight << endl;
+	}
+
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		treenode* node = nodes[i];
+
+		if (node != nullptr)
+		{
+			printStuff(node, "");
+		}
+	}
+
+	cout << "Amount of characters read: " << charactersRead << endl;
 
 	inputStream.close();
 
 	outputStream.close();
+}
 
-	cout << "did stuff";
+void Huffman::printStuff(treenode* node, string spaces)
+{
+	if (node->weight == 0)
+	{
+		return;
+	}
+
+	cout << spaces;
+
+	if (node->symbol != NULL)
+	{
+		cout << "Symbol: " << node->symbol << "(" << (unsigned int) node->symbol << ")" << " - ";
+	}
+
+	cout << node->weight << endl;
+
+	if (node->leftChild != nullptr)
+	{
+		printStuff(node->leftChild, spaces + " ");
+	}
+
+	if (node->rightChild != nullptr)
+	{
+		printStuff(node->rightChild, spaces + " ");
+	}
+}
+
+void Huffman::EncodeFile(string inputFile, string outputFile)
+{
+
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
