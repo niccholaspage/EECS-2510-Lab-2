@@ -7,6 +7,13 @@ using namespace std;
 
 class Huffman {
 public:
+	struct treenode {
+		char symbol;
+		int weight;
+		treenode* leftChild = nullptr;
+		treenode* rightChild = nullptr;
+	};
+
 	Huffman();
 	~Huffman();
 

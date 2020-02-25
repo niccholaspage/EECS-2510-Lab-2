@@ -4,19 +4,15 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 {
-    Huffman* huffman = new Huffman();
-
     if (argc < 2)
     {
         cout << "No flags given! Here is some help!" << endl;
 
         huffman->DisplayHelp();
 
-        delete huffman;
-
-        return 0;
+        return;
     }
 
     string flag = argv[1];
@@ -25,9 +21,7 @@ int main(int argc, char* argv[])
     {
         cout << "Invalid flag format!" << endl;
 
-        delete huffman;
-
-        return 0;
+        return;
     }
 
     for (unsigned int i = 0; i < flag.length(); i++)
@@ -43,7 +37,14 @@ int main(int argc, char* argv[])
     }
     else if (command == "e")
     {
-        cout << "encrypt..." << endl;
+        if (argc < 4)
+        {
+            cout << "not enough arguments!" << endl;
+        }
+        else
+        {
+            huffman->EncodeFile(argv[2], argv[3]);
+        }
     }
     else if (command == "d")
     {
@@ -60,6 +61,13 @@ int main(int argc, char* argv[])
     else {
         cout << "Invalid flag!" << endl;
     }
+}
+
+int main(int argc, char* argv[])
+{
+    Huffman* huffman = new Huffman();
+
+    handleCommandLineParameters(argc, argv, huffman);
 
     delete huffman;
 

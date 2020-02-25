@@ -1,3 +1,4 @@
+#include <fstream>
 #include "Huffman.h"
 
 Huffman::Huffman()
@@ -16,6 +17,42 @@ void Huffman::MakeTreeBuilder(string inputFile, string OutputFile)
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
 {
+	ifstream inputStream;
+
+	ofstream outputStream;
+
+	inputStream.open(inputFile);
+
+	if (inputStream.fail())
+	{
+		cout << "Input file failed to open!" << endl;
+
+		return;
+	}
+
+	outputStream.open(outputFile);
+
+	if (outputStream.fail())
+	{
+		cout << "Output file failed to open!" << endl;
+
+		return;
+	}
+
+	while (!inputStream.eof())
+	{
+		int byte = inputStream.get();
+
+		cout << byte;
+
+		outputStream << byte;
+	}
+
+	inputStream.close();
+
+	outputStream.close();
+
+	cout << "did stuff";
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
