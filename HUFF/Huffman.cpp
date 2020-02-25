@@ -73,10 +73,10 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 	int charactersRead = 0;
 
-	while (!inputStream.eof())
-	{
-		unsigned char character = inputStream.get();
+	unsigned char character;
 
+	while (inputStream >> std::noskipws >> character)
+	{
 		frequencyTable[character]++;
 
 		charactersRead++;
@@ -164,7 +164,7 @@ void Huffman::printStuff(treenode* node, string spaces)
 
 	if (node->symbol != NULL)
 	{
-		cout << "Symbol: " << node->symbol << "(" << (unsigned int) node->symbol << ")" << " - ";
+		cout << "Symbol: " << node->symbol << "(" << (unsigned int)node->symbol << ")" << " - ";
 	}
 
 	cout << node->weight << endl;
