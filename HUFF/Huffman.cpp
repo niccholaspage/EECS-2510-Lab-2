@@ -55,7 +55,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 		return;
 	}
 
-	outputStream.open(outputFile);
+	outputStream.open(outputFile, ios::binary); // THIS IS PROBABLY NOT IT CHIEF.
 
 	if (outputStream.fail())
 	{
@@ -123,6 +123,8 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 			parent->rightChild = nextSmallestNode;
 			nodes[smallestNodeIndex] = parent;
 			nodes[nextSmallestNodeIndex] = nullptr;
+			outputStream << (char)smallestNodeIndex;
+			outputStream << (char)nextSmallestNodeIndex;
 		}
 		else
 		{
@@ -130,10 +132,9 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 			parent->rightChild = smallestNode;
 			nodes[nextSmallestNodeIndex] = parent;
 			nodes[smallestNodeIndex] = nullptr;
+			outputStream << (char)nextSmallestNodeIndex;
+			outputStream << (char)smallestNodeIndex;
 		}
-
-		//outputStream << "Set " << smallestNodeIndex << " to parent, and " << nextSmallestNodeIndex << " to null" << endl;
-		//outputStream << "Combined weight: " << parent->weight << endl;
 	}
 
 	for (int i = 0; i < amountOfCharacters; i++)
