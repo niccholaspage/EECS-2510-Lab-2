@@ -108,12 +108,6 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 		treenode* smallestNode = nodes[smallestNodeIndex];
 		treenode* nextSmallestNode = nodes[nextSmallestNodeIndex];
 
-		//outputStream << "We are looking at indexes " << smallestNodeIndex << " & " << nextSmallestNodeIndex << ":" << endl;
-
-		//outputStream << "Symbol: " << smallestNode->symbol << " - " << smallestNode->weight << endl;
-
-		//outputStream << "Symbol: " << nextSmallestNode->symbol << " - " << nextSmallestNode->weight << endl;
-
 		parent->symbol = NULL;
 		parent->weight = smallestNode->weight + nextSmallestNode->weight;
 
