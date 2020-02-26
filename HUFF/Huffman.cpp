@@ -71,15 +71,11 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 		frequencyTable[i] = 0;
 	}
 
-	int charactersRead = 0;
-
 	char character;
 
 	while (inputStream.get(character))
 	{
 		frequencyTable[character]++;
-
-		charactersRead++;
 	}
 
 	treenode* nodes[amountOfCharacters];
@@ -98,7 +94,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 		nodes[i] = node;
 	}
 
-	while (nodes[0]->weight != charactersRead)
+	for (int i = 0; i < amountOfCharacters - 1; i++)
 	{
 		int smallestNodeIndex = getIndexOfSmallestNode(nodes, -1);
 		int nextSmallestNodeIndex = getIndexOfSmallestNode(nodes, smallestNodeIndex);
@@ -140,8 +136,6 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 			printStuff(node, "");
 		}
 	}
-
-	cout << "Amount of characters read: " << charactersRead << endl;
 
 	inputStream.close();
 
