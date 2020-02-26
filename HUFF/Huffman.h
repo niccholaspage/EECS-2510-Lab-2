@@ -27,9 +27,13 @@ private:
 
 	treenode* nodes[amountOfCharacters];
 
+	unsigned char encodingTable[amountOfCharacters];
+
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
 
 	void buildTree(ifstream& inputStream, ofstream* outputStream);
+
+	void buildEncodingTable();
 
 	void printStuff(treenode* node, string spaces);
 };

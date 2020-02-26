@@ -111,6 +111,11 @@ void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
 	}
 }
 
+void Huffman::buildEncodingTable()
+{
+
+}
+
 void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 {
 	ifstream inputStream;
