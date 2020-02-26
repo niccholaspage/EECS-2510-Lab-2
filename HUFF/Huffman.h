@@ -8,7 +8,7 @@ using namespace std;
 class Huffman {
 public:
 	struct treenode {
-		unsigned char symbol = NULL;
+		char symbol = NULL;
 		int weight = 0;
 		treenode* leftChild = nullptr;
 		treenode* rightChild = nullptr;
