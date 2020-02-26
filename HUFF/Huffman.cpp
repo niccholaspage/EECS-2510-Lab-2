@@ -40,30 +40,8 @@ int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int ski
 	return smallestNodeIndex;
 }
 
-void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
+void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
 {
-	ifstream inputStream;
-
-	ofstream outputStream;
-
-	inputStream.open(inputFile);
-
-	if (inputStream.fail())
-	{
-		cout << "Input file failed to open!" << endl;
-
-		return;
-	}
-
-	outputStream.open(outputFile, ios::binary); // THIS IS PROBABLY NOT IT CHIEF.
-
-	if (outputStream.fail())
-	{
-		cout << "Output file failed to open!" << endl;
-
-		return;
-	}
-
 	int frequencyTable[amountOfCharacters];
 
 	for (int i = 0; i < amountOfCharacters; i++)
@@ -77,8 +55,6 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	{
 		frequencyTable[character]++;
 	}
-
-	treenode* nodes[amountOfCharacters];
 
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
@@ -113,8 +89,12 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 			parent->rightChild = nextSmallestNode;
 			nodes[smallestNodeIndex] = parent;
 			nodes[nextSmallestNodeIndex] = nullptr;
-			outputStream << (char)smallestNodeIndex;
-			outputStream << (char)nextSmallestNodeIndex;
+
+			if (outputStream != nullptr)
+			{
+				*outputStream << (char)smallestNodeIndex;
+				*outputStream << (char)nextSmallestNodeIndex;
+			}
 		}
 		else
 		{
@@ -122,10 +102,40 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 			parent->rightChild = smallestNode;
 			nodes[nextSmallestNodeIndex] = parent;
 			nodes[smallestNodeIndex] = nullptr;
-			outputStream << (char)nextSmallestNodeIndex;
-			outputStream << (char)smallestNodeIndex;
+			if (outputStream != nullptr)
+			{
+				*outputStream << (char)nextSmallestNodeIndex;
+				*outputStream << (char)smallestNodeIndex;
+			}
 		}
 	}
+}
+
+void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
+{
+	ifstream inputStream;
+
+	ofstream outputStream;
+
+	inputStream.open(inputFile);
+
+	if (inputStream.fail())
+	{
+		cout << "Input file failed to open!" << endl;
+
+		return;
+	}
+
+	outputStream.open(outputFile, ios::binary); // THIS IS PROBABLY NOT IT CHIEF.
+
+	if (outputStream.fail())
+	{
+		cout << "Output file failed to open!" << endl;
+
+		return;
+	}
+
+	buildTree(inputStream, &outputStream);
 
 	for (int i = 0; i < amountOfCharacters; i++)
 	{

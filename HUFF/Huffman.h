@@ -25,7 +25,11 @@ public:
 private:
 	const static int amountOfCharacters = 256;
 
+	treenode* nodes[amountOfCharacters];
+
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
+
+	void buildTree(ifstream& inputStream, ofstream* outputStream);
 
 	void printStuff(treenode* node, string spaces);
 };
