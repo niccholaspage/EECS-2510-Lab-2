@@ -56,7 +56,11 @@ void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
 
 	while (inputStream.get(character))
 	{
-		frequencyTable[character]++;
+		// BY COERCING INTO A UNSIGNED CHAR, WE FIX THE ARRAY INDEX ACCESS OTHERWISE,
+		// WE ACCESS ARRAY INDEXES OUT OF THE FREQUENCY TABLE SIZE AND MESS THINGS UP!
+		unsigned char symbol = character;
+
+		frequencyTable[symbol]++;
 	}
 
 	for (int i = 0; i < amountOfCharacters; i++)
