@@ -3,7 +3,10 @@
 
 Huffman::Huffman()
 {
-
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		nodes[i] = nullptr;
+	}
 }
 
 Huffman::~Huffman()
@@ -122,7 +125,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 	ofstream outputStream;
 
-	inputStream.open(inputFile);
+	inputStream.open(inputFile, ios::binary);
 
 	if (inputStream.fail())
 	{
