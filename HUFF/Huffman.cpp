@@ -11,7 +11,10 @@ Huffman::Huffman()
 
 Huffman::~Huffman()
 {
-
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		delete nodes[i];
+	}
 }
 
 int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex)
