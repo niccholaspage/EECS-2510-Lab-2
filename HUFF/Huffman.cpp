@@ -178,20 +178,20 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	{
 		treenode* node = nodes[i];
 
-		if (node != nullptr)
+		/*if (node != nullptr)
 		{
 			printStuff(node, "");
-		}
+		}*/
 	}
 
 	buildEncodingTable();
 
-	cout << "Encoding Table: ";
+	/*cout << "Encoding Table: ";
 
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
 		cout << "Symbol: (" << i << ") - " << encodingTable[i] << endl;
-	}
+	}*/
 
 	inputStream.close();
 
