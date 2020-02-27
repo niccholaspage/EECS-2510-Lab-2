@@ -48,7 +48,7 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
     }
     else if (command == "d")
     {
-        cout << "decrypt..." << endl;
+        huffman->DecodeFile(argv[2], argv[3]);
     }
     else if (command == "t")
     {
