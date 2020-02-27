@@ -45,7 +45,7 @@ int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int ski
 	return smallestNodeIndex;
 }
 
-void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
+void Huffman::buildTree()
 {
 	int frequencyTable[amountOfCharacters];
 
@@ -99,11 +99,8 @@ void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
 			nodes[smallestNodeIndex] = parent;
 			nodes[nextSmallestNodeIndex] = nullptr;
 
-			if (outputStream != nullptr)
-			{
-				*outputStream << (char)smallestNodeIndex;
-				*outputStream << (char)nextSmallestNodeIndex;
-			}
+			outputStream << (char)smallestNodeIndex;
+			outputStream << (char)nextSmallestNodeIndex;
 		}
 		else
 		{
@@ -111,11 +108,9 @@ void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
 			parent->rightChild = smallestNode;
 			nodes[nextSmallestNodeIndex] = parent;
 			nodes[smallestNodeIndex] = nullptr;
-			if (outputStream != nullptr)
-			{
-				*outputStream << (char)nextSmallestNodeIndex;
-				*outputStream << (char)smallestNodeIndex;
-			}
+
+			outputStream << (char)nextSmallestNodeIndex;
+			outputStream << (char)smallestNodeIndex;
 		}
 	}
 }
@@ -187,7 +182,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 		return;
 	}
 
-	buildTree(inputStream, &outputStream);
+	buildTree();
 
 	buildEncodingTable();
 
@@ -212,11 +207,11 @@ void Huffman::encodeBytes()
 
 		string bitString = encodingTable[symbol];
 
-		for (int i = 0; i < bitString.length(); i++)
+		for (unsigned int i = 0; i < bitString.length(); i++)
 		{
 			bool on = bitString[i] == '1';
 
-			outputCharacter |= (on << 7 - i);
+			outputCharacter |= (on << (7 - i));
 
 			currentBit++;
 
@@ -239,7 +234,7 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 		return;
 	}
 
-	buildTree(inputStream, &outputStream);
+	buildTree();
 
 	buildEncodingTable();
 
