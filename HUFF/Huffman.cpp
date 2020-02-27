@@ -202,13 +202,33 @@ void Huffman::encodeBytes()
 
 	char character;
 
+	unsigned char outputCharacter = 0; // Character we are working on writing
+
+	int currentBit = 0; // The current bit we are on
+
 	while (inputStream.get(character))
 	{
 		unsigned char symbol = character;
 
 		string bitString = encodingTable[symbol];
 
-		outputStream << bitString;
+		for (int i = 0; i < bitString.length(); i++)
+		{
+			bool on = bitString[i] == '1';
+
+			outputCharacter |= (on << 7 - i);
+
+			currentBit++;
+
+			if (currentBit == 7)
+			{
+				outputStream << outputCharacter;
+
+				outputCharacter = 0;
+
+				currentBit = 0;
+			}
+		}
 	}
 }
 
