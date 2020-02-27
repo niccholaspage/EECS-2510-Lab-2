@@ -118,9 +118,34 @@ void Huffman::buildTree(ifstream& inputStream, ofstream* outputStream)
 	}
 }
 
+bool Huffman::isLeaf(treenode* node)
+{
+	return node->leftChild == nullptr && node->rightChild == nullptr;
+}
+
 void Huffman::buildEncodingTable()
 {
+	buildEncodingTable(nodes[0], "");
+}
 
+void Huffman::buildEncodingTable(treenode* node, string path)
+{
+	if (isLeaf(node))
+	{
+		encodingTable[node->symbol] = path;
+
+		return;
+	}
+
+	if (node->leftChild != nullptr)
+	{
+		buildEncodingTable(node->leftChild, path + "0");
+	}
+
+	if (node->rightChild != nullptr)
+	{
+		buildEncodingTable(node->rightChild, path + "1");
+	}
 }
 
 void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
@@ -159,6 +184,15 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 		}
 	}
 
+	buildEncodingTable();
+
+	cout << "Encoding Table: ";
+
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		cout << "Symbol: (" << i << ") - " << encodingTable[i] << endl;
+	}
+
 	inputStream.close();
 
 	outputStream.close();
@@ -175,7 +209,7 @@ void Huffman::printStuff(treenode* node, string spaces)
 
 	if (node->symbol != NULL)
 	{
-		cout << "Symbol: " << node->symbol << "(" << (unsigned int)node->symbol << ")" << " - ";
+		cout << "Symbol: " << node->symbol << " (" << (unsigned int)node->symbol << ")" << " - ";
 	}
 
 	cout << node->weight << endl;
