@@ -27,7 +27,7 @@ private:
 
 	treenode* nodes[amountOfCharacters];
 
-	unsigned char encodingTable[amountOfCharacters];
+	string encodingTable[amountOfCharacters];
 
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
 
