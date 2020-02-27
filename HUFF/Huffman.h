@@ -32,16 +32,11 @@ private:
 	ofstream outputStream;
 
 	bool openStreams(string inputFile, string outputFile);
-
 	void closeStreams();
-
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
-
 	void buildTree(ifstream& inputStream, ofstream* outputStream);
-
 	void buildEncodingTable();
-
 	void buildEncodingTable(treenode* node, string currentPath);
-
+	void encodeBytes();
 	bool isLeaf(treenode* node);
 };

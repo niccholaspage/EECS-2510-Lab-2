@@ -194,9 +194,36 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	closeStreams();
 }
 
+void Huffman::encodeBytes()
+{
+	inputStream.clear();
+
+	inputStream.seekg(0);
+
+	char character;
+
+	while (inputStream.get(character))
+	{
+		unsigned char symbol = character;
+
+		cout << character;
+	}
+}
+
 void Huffman::EncodeFile(string inputFile, string outputFile)
 {
+	if (!openStreams(inputFile, outputFile))
+	{
+		return;
+	}
 
+	buildTree(inputStream, &outputStream);
+
+	buildEncodingTable();
+
+	encodeBytes();
+
+	closeStreams();
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
