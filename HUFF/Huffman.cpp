@@ -64,8 +64,8 @@ void Huffman::buildTreeFromTreeBuilder()
 	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
 	for (int i = 0; i < amountOfCharacters - 1; i += 2)
 	{
-		int leftIndex = inputStream.get();
-		int rightIndex = inputStream.get();
+		unsigned char leftIndex = inputStream.get();
+		unsigned char rightIndex = inputStream.get();
 
 		treenode* parent = new treenode;
 
