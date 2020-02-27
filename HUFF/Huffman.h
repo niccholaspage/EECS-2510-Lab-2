@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -26,8 +27,13 @@ private:
 	const static int amountOfCharacters = 256;
 
 	treenode* nodes[amountOfCharacters];
-
 	string encodingTable[amountOfCharacters];
+	ifstream inputStream;
+	ofstream outputStream;
+
+	bool openStreams(string inputFile, string outputFile);
+
+	void closeStreams();
 
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
 

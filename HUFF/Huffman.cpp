@@ -1,4 +1,3 @@
-#include <fstream>
 #include "Huffman.h"
 
 Huffman::Huffman()
@@ -151,19 +150,15 @@ void Huffman::buildEncodingTable(treenode* node, string path)
 	}
 }
 
-void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
+bool Huffman::openStreams(string inputFile, string outputFile)
 {
-	ifstream inputStream;
-
-	ofstream outputStream;
-
 	inputStream.open(inputFile, ios::binary);
 
 	if (inputStream.fail())
 	{
 		cout << "Input file failed to open!" << endl;
 
-		return;
+		return false;
 	}
 
 	outputStream.open(outputFile, ios::binary); // THIS IS PROBABLY NOT IT CHIEF.
@@ -172,21 +167,31 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	{
 		cout << "Output file failed to open!" << endl;
 
+		return false;
+	}
+
+	return true;
+}
+
+void Huffman::closeStreams()
+{
+	inputStream.close();
+
+	outputStream.close();
+}
+
+void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
+{
+	if (!openStreams(inputFile, outputFile))
+	{
 		return;
 	}
 
 	buildTree(inputStream, &outputStream);
 
-	for (int i = 0; i < amountOfCharacters; i++)
-	{
-		treenode* node = nodes[i];
-	}
-
 	buildEncodingTable();
 
-	inputStream.close();
-
-	outputStream.close();
+	closeStreams();
 }
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
