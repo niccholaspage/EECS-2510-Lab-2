@@ -37,7 +37,5 @@ private:
 
 	void buildEncodingTable(treenode* node, string currentPath);
 
-	void printStuff(treenode* node, string spaces);
-
 	bool isLeaf(treenode* node);
 };

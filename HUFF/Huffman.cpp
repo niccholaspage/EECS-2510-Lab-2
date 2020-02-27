@@ -177,52 +177,13 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
 		treenode* node = nodes[i];
-
-		/*if (node != nullptr)
-		{
-			printStuff(node, "");
-		}*/
 	}
 
 	buildEncodingTable();
 
-	/*cout << "Encoding Table: ";
-
-	for (int i = 0; i < amountOfCharacters; i++)
-	{
-		cout << "Symbol: (" << i << ") - " << encodingTable[i] << endl;
-	}*/
-
 	inputStream.close();
 
 	outputStream.close();
-}
-
-void Huffman::printStuff(treenode* node, string spaces)
-{
-	if (node->weight == 0)
-	{
-		return;
-	}
-
-	cout << spaces;
-
-	if (node->symbol != NULL)
-	{
-		cout << "Symbol: " << node->symbol << " (" << (unsigned int)node->symbol << ")" << " - ";
-	}
-
-	cout << node->weight << endl;
-
-	if (node->leftChild != nullptr)
-	{
-		printStuff(node->leftChild, spaces + " ");
-	}
-
-	if (node->rightChild != nullptr)
-	{
-		printStuff(node->rightChild, spaces + " ");
-	}
 }
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
