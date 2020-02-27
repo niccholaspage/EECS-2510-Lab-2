@@ -206,7 +206,9 @@ void Huffman::encodeBytes()
 	{
 		unsigned char symbol = character;
 
-		cout << character;
+		string bitString = encodingTable[symbol];
+
+		outputStream << bitString;
 	}
 }
 
