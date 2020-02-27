@@ -45,6 +45,31 @@ int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int ski
 	return smallestNodeIndex;
 }
 
+void Huffman::buildTreeFromTreeBuilder()
+{
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		unsigned char symbol = i;
+
+		treenode* node = new treenode;
+
+		node->symbol = symbol;
+		node->weight = 0; // We don't care about the weight, as we already have the order we are pairing things up in
+		node->leftChild = nullptr;
+		node->rightChild = nullptr;
+
+		nodes[i] = node;
+	}
+
+	char character;
+
+	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
+	for (int i = 0; i < amountOfCharacters; i++)
+	{
+		unsigned char symbol = inputStream.get();
+	}
+}
+
 void Huffman::buildTree()
 {
 	int frequencyTable[amountOfCharacters];
