@@ -61,12 +61,25 @@ void Huffman::buildTreeFromTreeBuilder()
 		nodes[i] = node;
 	}
 
-	char character;
-
 	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
-	for (int i = 0; i < amountOfCharacters; i++)
+	for (int i = 0; i < amountOfCharacters - 1; i += 2)
 	{
-		unsigned char symbol = inputStream.get();
+		int leftIndex = inputStream.get();
+		int rightIndex = inputStream.get();
+
+		treenode* parent = new treenode;
+
+		treenode* firstNode = nodes[leftIndex];
+		treenode* secondNode = nodes[rightIndex];
+
+		parent->symbol = NULL;
+		parent->weight = 0; // we don't care about weight
+
+		parent->leftChild = firstNode;
+		parent->rightChild = secondNode;
+
+		nodes[leftIndex] = parent;
+		nodes[rightIndex] = nullptr;
 	}
 }
 
@@ -270,6 +283,14 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
 {
+	if (!openStreams(inputFile, outputFile))
+	{
+		return;
+	}
+
+	buildTreeFromTreeBuilder();
+
+	closeStreams();
 }
 
 void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outputFile)
