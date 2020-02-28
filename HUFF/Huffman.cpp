@@ -81,32 +81,6 @@ void Huffman::buildTreeFromTreeBuilder()
 		nodes[leftIndex] = parent;
 		nodes[rightIndex] = nullptr;
 	}
-
-	printNode(nodes[0], "");
-}
-
-void Huffman::printNode(treenode* node, string spaces)
-{
-	return;
-
-	cout << spaces;
-
-	if (node->symbol != NULL)
-	{
-		cout << "Symbol: " << node->symbol << " (" << (unsigned int)node->symbol << ")" << " - ";
-	}
-
-	cout << node->weight << endl;
-
-	if (node->leftChild != nullptr)
-	{
-		printNode(node->leftChild, spaces + " ");
-	}
-
-	if (node->rightChild != nullptr)
-	{
-		printNode(node->rightChild, spaces + " ");
-	}
 }
 
 void Huffman::buildTree()
@@ -177,8 +151,6 @@ void Huffman::buildTree()
 			outputStream << (char)smallestNodeIndex;
 		}
 	}
-
-	printNode(nodes[0], "");
 }
 
 bool Huffman::isLeaf(treenode* node)
