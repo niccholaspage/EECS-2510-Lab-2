@@ -323,6 +323,8 @@ void Huffman::encodeBytes()
 			}
 		}
 	}
+
+	// HANDLE CASE HERE, where currentBit != 0, so we need to write out the next byte after filling padding.
 }
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
