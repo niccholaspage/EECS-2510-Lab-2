@@ -38,6 +38,8 @@ private:
 	void buildTreeFromTreeBuilder();
 	void buildEncodingTable();
 	void buildEncodingTable(treenode* node, string currentPath);
+	void decodeBytes();
 	void encodeBytes();
+	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
 	bool isLeaf(treenode* node);
 };

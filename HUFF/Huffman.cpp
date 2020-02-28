@@ -62,7 +62,7 @@ void Huffman::buildTreeFromTreeBuilder()
 	}
 
 	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
-	for (int i = 0; i < amountOfCharacters - 1; i += 2)
+	for (int i = 0; i < amountOfCharacters - 1; i++)
 	{
 		unsigned char leftIndex = inputStream.get();
 		unsigned char rightIndex = inputStream.get();
@@ -227,10 +227,49 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	closeStreams();
 }
 
+void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
+{
+	if (byte & bitToCheck)
+	{
+		node = node->rightChild;
+	}
+	else
+	{
+		node = node->leftChild;
+	}
+
+	if (isLeaf(node))
+	{
+		outputStream << node->symbol;
+
+		node = nodes[0];
+	}
+}
+
+void Huffman::decodeBytes()
+{
+	char character;
+
+	treenode* currentNode = nodes[0];
+
+	while (inputStream.get(character))
+	{
+		unsigned char byte = character;
+
+		navigateTree(byte, 128, currentNode);
+		navigateTree(byte, 64, currentNode);
+		navigateTree(byte, 32, currentNode);
+		navigateTree(byte, 16, currentNode);
+		navigateTree(byte, 8, currentNode);
+		navigateTree(byte, 4, currentNode);
+		navigateTree(byte, 2, currentNode);
+		navigateTree(byte, 1, currentNode);
+	}
+}
+
 void Huffman::encodeBytes()
 {
 	inputStream.clear();
-
 	inputStream.seekg(0);
 
 	char character;
@@ -289,6 +328,8 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 	}
 
 	buildTreeFromTreeBuilder();
+
+	decodeBytes();
 
 	closeStreams();
 }
