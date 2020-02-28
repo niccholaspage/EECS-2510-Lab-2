@@ -293,7 +293,7 @@ void Huffman::decodeBytes()
 	}
 }
 
-void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string bits)
+void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string& bits)
 {
 	for (unsigned int i = 0; i < bits.length(); i++)
 	{
@@ -329,7 +329,7 @@ void Huffman::encodeBytes()
 	{
 		unsigned char symbol = character;
 
-		string bitString = encodingTable[symbol];
+		string& bitString = encodingTable[symbol];
 
 		encodeBits(outputCharacter, currentBit, bitString);
 	}
