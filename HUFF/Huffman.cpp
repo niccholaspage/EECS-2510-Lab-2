@@ -197,6 +197,11 @@ void Huffman::buildEncodingTable(treenode* node, string path)
 	{
 		encodingTable[node->symbol] = path;
 
+		if (path.length() > 7)
+		{
+			paddingBits = path;
+		}
+
 		return;
 	}
 
@@ -288,6 +293,27 @@ void Huffman::decodeBytes()
 	}
 }
 
+void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string bits)
+{
+	for (unsigned int i = 0; i < bits.length(); i++)
+	{
+		bool on = bits[i] == '1';
+
+		outputCharacter |= (on << (7 - currentBit));
+
+		currentBit++;
+
+		if (currentBit == 8)
+		{
+			outputStream << outputCharacter;
+
+			outputCharacter = 0;
+
+			currentBit = 0;
+		}
+	}
+}
+
 void Huffman::encodeBytes()
 {
 	inputStream.clear();
@@ -305,26 +331,14 @@ void Huffman::encodeBytes()
 
 		string bitString = encodingTable[symbol];
 
-		for (unsigned int i = 0; i < bitString.length(); i++)
-		{
-			bool on = bitString[i] == '1';
-
-			outputCharacter |= (on << (7 - currentBit));
-
-			currentBit++;
-
-			if (currentBit == 8)
-			{
-				outputStream << outputCharacter;
-
-				outputCharacter = 0;
-
-				currentBit = 0;
-			}
-		}
+		encodeBits(outputCharacter, currentBit, bitString);
 	}
 
-	// HANDLE CASE HERE, where currentBit != 0, so we need to write out the next byte after filling padding.
+	// Handling case here, where we need to finish writing a byte, so we finish the byte with padding bits.
+	if (currentBit != 0)
+	{
+		encodeBits(outputCharacter, currentBit, paddingBits);
+	}
 }
 
 void Huffman::EncodeFile(string inputFile, string outputFile)

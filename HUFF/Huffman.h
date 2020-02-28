@@ -28,6 +28,7 @@ private:
 
 	treenode* nodes[amountOfCharacters];
 	string encodingTable[amountOfCharacters];
+	string paddingBits;
 	ifstream inputStream;
 	ofstream outputStream;
 
@@ -39,6 +40,7 @@ private:
 	void buildEncodingTable();
 	void buildEncodingTable(treenode* node, string currentPath);
 	void decodeBytes();
+	void encodeBits(unsigned char& outputCharacter, int& currentBit, string bits);
 	void encodeBytes();
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
 	bool isLeaf(treenode* node);
