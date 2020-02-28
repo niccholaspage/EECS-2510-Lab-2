@@ -42,4 +42,6 @@ private:
 	void encodeBytes();
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
 	bool isLeaf(treenode* node);
+
+	void printNode(treenode* node, string spaces);
 };

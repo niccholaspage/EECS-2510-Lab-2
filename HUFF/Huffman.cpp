@@ -81,6 +81,32 @@ void Huffman::buildTreeFromTreeBuilder()
 		nodes[leftIndex] = parent;
 		nodes[rightIndex] = nullptr;
 	}
+
+	printNode(nodes[0], "");
+}
+
+void Huffman::printNode(treenode* node, string spaces)
+{
+	return;
+
+	cout << spaces;
+
+	if (node->symbol != NULL)
+	{
+		cout << "Symbol: " << node->symbol << " (" << (unsigned int)node->symbol << ")" << " - ";
+	}
+
+	cout << node->weight << endl;
+
+	if (node->leftChild != nullptr)
+	{
+		printNode(node->leftChild, spaces + " ");
+	}
+
+	if (node->rightChild != nullptr)
+	{
+		printNode(node->rightChild, spaces + " ");
+	}
 }
 
 void Huffman::buildTree()
@@ -151,6 +177,8 @@ void Huffman::buildTree()
 			outputStream << (char)smallestNodeIndex;
 		}
 	}
+
+	printNode(nodes[0], "");
 }
 
 bool Huffman::isLeaf(treenode* node)
@@ -229,14 +257,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
 {
-	if (byte & bitToCheck)
-	{
-		node = node->rightChild;
-	}
-	else
-	{
-		node = node->leftChild;
-	}
+	node = byte & bitToCheck ? node->rightChild : node->leftChild;
 
 	if (isLeaf(node))
 	{
@@ -288,11 +309,11 @@ void Huffman::encodeBytes()
 		{
 			bool on = bitString[i] == '1';
 
-			outputCharacter |= (on << (7 - i));
+			outputCharacter |= (on << (7 - currentBit));
 
 			currentBit++;
 
-			if (currentBit == 7)
+			if (currentBit == 8)
 			{
 				outputStream << outputCharacter;
 
