@@ -315,8 +315,6 @@ void Huffman::encodeBytes()
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
 {
-	auto start = chrono::system_clock::now();
-
 	if (!openStreams(inputFile, outputFile))
 	{
 		return;
@@ -329,12 +327,6 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 	encodeBytes();
 
 	closeStreams();
-
-	auto end = chrono::system_clock::now();
-
-	chrono::duration<double> elapsed_seconds = end - start;
-
-	cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)

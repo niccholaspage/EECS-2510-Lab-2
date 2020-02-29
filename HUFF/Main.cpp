@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 
 #include "Huffman.h"
@@ -72,11 +73,19 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 
 int main(int argc, char* argv[])
 {
+    auto start = chrono::system_clock::now();
+
     Huffman* huffman = new Huffman();
 
     handleCommandLineParameters(argc, argv, huffman);
 
     delete huffman;
+
+    auto end = chrono::system_clock::now();
+
+    chrono::duration<double> elapsed_seconds = end - start;
+
+    cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 
     return 0;
 }
