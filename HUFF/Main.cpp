@@ -64,7 +64,14 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
     }
     else if (command == "et")
     {
-        cout << "encrypt tree" << endl;
+        if (argc < 5)
+        {
+            cout << "not enough arguments!" << endl;
+        }
+        else
+        {
+            huffman->EncodeFileWithTree(argv[2], argv[3], argv[4]);
+        }
     }
     else {
         cout << "Invalid flag!" << endl;
