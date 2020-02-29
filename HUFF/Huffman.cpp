@@ -353,7 +353,7 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 
 	ifstream treeStream;
 
-	treeStream.open(inputFile, ios::binary);
+	treeStream.open(TreeFile, ios::binary);
 
 	if (treeStream.fail())
 	{
@@ -363,6 +363,8 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 	}
 
 	buildTreeFromTreeBuilder(treeStream);
+
+	treeStream.close();
 
 	buildEncodingTable();
 
