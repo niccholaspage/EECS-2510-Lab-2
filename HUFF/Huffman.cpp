@@ -359,6 +359,8 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 	{
 		cout << "Unable to open tree file." << endl;
 
+		closeStreams();
+
 		return;
 	}
 
