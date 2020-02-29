@@ -45,7 +45,7 @@ int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int ski
 	return smallestNodeIndex;
 }
 
-void Huffman::buildTreeFromTreeBuilder(ifstream& stream)
+void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 {
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
@@ -66,6 +66,11 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream)
 	{
 		unsigned char leftIndex = stream.get();
 		unsigned char rightIndex = stream.get();
+
+		if (writeToOutput)
+		{
+			outputStream << leftIndex << rightIndex;
+		}
 
 		treenode* parent = new treenode;
 
@@ -337,7 +342,7 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 		return;
 	}
 
-	buildTreeFromTreeBuilder(inputStream);
+	buildTreeFromTreeBuilder(inputStream, false);
 
 	decodeBytes();
 
@@ -364,7 +369,7 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 		return;
 	}
 
-	buildTreeFromTreeBuilder(treeStream);
+	buildTreeFromTreeBuilder(treeStream, true);
 
 	treeStream.close();
 
