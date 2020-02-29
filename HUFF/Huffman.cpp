@@ -45,7 +45,7 @@ int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int ski
 	return smallestNodeIndex;
 }
 
-void Huffman::buildTreeFromTreeBuilder()
+void Huffman::buildTreeFromTreeBuilder(ifstream& stream)
 {
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
@@ -64,8 +64,8 @@ void Huffman::buildTreeFromTreeBuilder()
 	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
 	for (int i = 0; i < amountOfCharacters - 1; i++)
 	{
-		unsigned char leftIndex = inputStream.get();
-		unsigned char rightIndex = inputStream.get();
+		unsigned char leftIndex = stream.get();
+		unsigned char rightIndex = stream.get();
 
 		treenode* parent = new treenode;
 
@@ -194,7 +194,7 @@ bool Huffman::openStreams(string inputFile, string outputFile)
 
 	if (inputStream.fail())
 	{
-		cout << "Input file failed to open!" << endl;
+		cout << "Unable to open input file." << endl;
 
 		return false;
 	}
@@ -203,7 +203,7 @@ bool Huffman::openStreams(string inputFile, string outputFile)
 
 	if (outputStream.fail())
 	{
-		cout << "Output file failed to open!" << endl;
+		cout << "Unable to open output file." << endl;
 
 		return false;
 	}
@@ -224,6 +224,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	{
 		return;
 	}
+
 
 	buildTree();
 
@@ -336,7 +337,7 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 		return;
 	}
 
-	buildTreeFromTreeBuilder();
+	buildTreeFromTreeBuilder(inputStream);
 
 	decodeBytes();
 
@@ -345,6 +346,29 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 
 void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outputFile)
 {
+	if (!openStreams(inputFile, outputFile))
+	{
+		return;
+	}
+
+	ifstream treeStream;
+
+	treeStream.open(inputFile, ios::binary);
+
+	if (treeStream.fail())
+	{
+		cout << "Unable to open tree file." << endl;
+
+		return;
+	}
+
+	buildTreeFromTreeBuilder(treeStream);
+
+	buildEncodingTable();
+
+	encodeBytes();
+
+	closeStreams();
 }
 void Huffman::DisplayHelp()
 {

@@ -36,7 +36,7 @@ private:
 	void closeStreams();
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
 	void buildTree();
-	void buildTreeFromTreeBuilder();
+	void buildTreeFromTreeBuilder(ifstream& stream);
 	void buildEncodingTable();
 	void buildEncodingTable(treenode* node, string currentPath);
 	void decodeBytes();
