@@ -95,7 +95,8 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 
 		if (writeToOutput)
 		{
-			outputStream << leftIndex << rightIndex;
+			outputStream.put(leftIndex);
+			outputStream.put(rightIndex);
 		}
 
 		treenode* parent = new treenode;
@@ -168,8 +169,8 @@ void Huffman::buildTree()
 			nodes[smallestNodeIndex] = parent;
 			nodes[nextSmallestNodeIndex] = nullptr;
 
-			outputStream << (char)smallestNodeIndex;
-			outputStream << (char)nextSmallestNodeIndex;
+			outputStream.put(smallestNodeIndex);
+			outputStream.put(nextSmallestNodeIndex);
 		}
 		else
 		{
@@ -178,8 +179,8 @@ void Huffman::buildTree()
 			nodes[nextSmallestNodeIndex] = parent;
 			nodes[smallestNodeIndex] = nullptr;
 
-			outputStream << (char)nextSmallestNodeIndex;
-			outputStream << (char)smallestNodeIndex;
+			outputStream.put(nextSmallestNodeIndex);
+			outputStream.put(smallestNodeIndex);
 		}
 	}
 }
@@ -270,7 +271,7 @@ void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
 
 	if (isLeaf(node))
 	{
-		outputStream << node->symbol;
+		outputStream.put(node->symbol);
 
 		node = nodes[0];
 	}
@@ -309,7 +310,7 @@ void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string
 
 		if (currentBit == 8)
 		{
-			outputStream << outputCharacter;
+			outputStream.put(outputCharacter);
 
 			outputCharacter = 0;
 
