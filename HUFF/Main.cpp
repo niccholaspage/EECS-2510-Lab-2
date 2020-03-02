@@ -52,16 +52,7 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 		{
 			string input_path = argv[2];
 
-			string output_path;
-
-			if (argc < 4)
-			{
-				output_path = replaceExtension(input_path);
-			}
-			else
-			{
-				output_path = argv[3];
-			}
+			string output_path = argc < 4 ? replaceExtension(input_path) : argv[3];
 
 			huffman->EncodeFile(input_path, output_path);
 		}
