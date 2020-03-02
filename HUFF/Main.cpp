@@ -78,13 +78,17 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 	}
 	else if (command == "et")
 	{
-		if (argc < 5)
+		if (argc < 4)
 		{
 			cout << "not enough arguments!" << endl;
 		}
 		else
 		{
-			huffman->EncodeFileWithTree(argv[2], argv[3], argv[4]);
+			string input_path = argv[2];
+
+			string output_path = argc < 5 ? replaceExtension(input_path, "huf") : argv[4];
+
+			huffman->EncodeFileWithTree(input_path, argv[3], output_path);
 		}
 	}
 	else {
