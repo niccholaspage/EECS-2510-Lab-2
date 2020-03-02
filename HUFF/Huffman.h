@@ -32,6 +32,7 @@ private:
 	ifstream inputStream;
 	ofstream outputStream;
 
+	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well asitself
 	bool openStreams(string inputFile, string outputFile);
 	void closeStreams();
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);

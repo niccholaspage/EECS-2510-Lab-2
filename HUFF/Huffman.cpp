@@ -12,8 +12,34 @@ Huffman::~Huffman()
 {
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
-		delete nodes[i];
+		if (nodes[i] != nullptr)
+		{
+			traverseDestruct(nodes[i]);
+		}
 	}
+}
+
+void Huffman::traverseDestruct(treenode* p) {
+	// This recursive method can be called on a given node to delete
+	// its children and itself. Doing this recursively ensures that
+	// every node will get deleted as long as this method is initially
+	// called on the root node.
+	//
+	if (p->leftChild != nullptr) // Check if the left child of the node is not null
+	{
+		traverseDestruct(p->leftChild); // Since the node does have a left child, we will call the traverseDestruct method on the node
+	}
+
+	if (p->rightChild != nullptr) // Check if the right child is not null
+	{
+		traverseDestruct(p->rightChild); // Since the node does have a right child, we will call the traverseDestruct method on the node
+	}
+
+	// Now that we have properly deleted the children of the given node,
+	// we are safe to delete the node since we have already taken care of
+	// its children.
+	//
+	delete p;
 }
 
 int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex)
