@@ -45,7 +45,7 @@ void Huffman::traverseDestruct(treenode* p) {
 int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex)
 {
 	int smallestNodeIndex = -1;
-	int smallestWeight = INT_MAX;
+	unsigned int smallestWeight = UINT_MAX;
 
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
