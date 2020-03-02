@@ -5,9 +5,9 @@
 
 using namespace std;
 
-string replaceExtension(const string& fileName)
+string replaceExtension(const string& fileName, const string& extension)
 {
-	return fileName.substr(0, fileName.find('.')) + ".huf";
+	return fileName.substr(0, fileName.find('.')) + "." + extension;
 }
 
 
@@ -52,7 +52,7 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 		{
 			string input_path = argv[2];
 
-			string output_path = argc < 4 ? replaceExtension(input_path) : argv[3];
+			string output_path = argc < 4 ? replaceExtension(input_path, "huf") : argv[3];
 
 			huffman->EncodeFile(input_path, output_path);
 		}
@@ -63,13 +63,17 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 	}
 	else if (command == "t")
 	{
-		if (argc < 4)
+		if (argc < 3)
 		{
 			cout << "not enough arguments!" << endl;
 		}
 		else
 		{
-			huffman->MakeTreeBuilder(argv[2], argv[3]);
+			string input_path = argv[2];
+
+			string output_path = argc < 4 ? replaceExtension(input_path, "htree") : argv[3];
+
+			huffman->MakeTreeBuilder(input_path, output_path);
 		}
 	}
 	else if (command == "et")
