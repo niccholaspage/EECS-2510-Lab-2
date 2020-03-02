@@ -117,7 +117,7 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 
 void Huffman::buildTree()
 {
-	int frequencyTable[amountOfCharacters];
+	unsigned int frequencyTable[amountOfCharacters];
 
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
