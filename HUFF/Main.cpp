@@ -59,7 +59,14 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 	}
 	else if (command == "d")
 	{
-		huffman->DecodeFile(argv[2], argv[3]);
+		if (argc < 4)
+		{
+			cout << "not enough arguments!" << endl;
+		}
+		else
+		{
+			huffman->DecodeFile(argv[2], argv[3]);
+		}
 	}
 	else if (command == "t")
 	{
