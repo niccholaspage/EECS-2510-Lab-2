@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -31,6 +32,7 @@ private:
 	string paddingBits;
 	ifstream inputStream;
 	ofstream outputStream;
+	chrono::high_resolution_clock::time_point start;
 
 	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well asitself
 	bool openStreams(string inputFile, string outputFile);
@@ -44,7 +46,6 @@ private:
 	void encodeBits(unsigned char& outputCharacter, int& currentBit, string& bits);
 	void encodeBytes();
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
+	void printFinalInfo();
 	bool isLeaf(treenode* node);
-
-	void printNode(treenode* node, string spaces);
 };

@@ -1,4 +1,3 @@
-#include <chrono>
 #include <iostream>
 
 #include "Huffman.h"
@@ -109,19 +108,11 @@ int main(int argc, char* argv[])
 	cout.setf(ios::showpoint);
 	cout.precision(3);
 
-	auto start = chrono::high_resolution_clock::now();
-
 	Huffman* huffman = new Huffman();
 
 	handleCommandLineParameters(argc, argv, huffman);
 
 	delete huffman;
-
-	auto end = chrono::high_resolution_clock::now();
-
-	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
-
-	cout << "Time: " << elapsed_seconds.count() << " seconds.\n";
 
 	return 0;
 }

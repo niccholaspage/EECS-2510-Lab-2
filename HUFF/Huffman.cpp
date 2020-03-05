@@ -2,6 +2,8 @@
 
 Huffman::Huffman()
 {
+	start = chrono::high_resolution_clock::now();
+
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
 		nodes[i] = nullptr;
@@ -406,6 +408,16 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 
 	closeStreams();
 }
+
+void Huffman::printFinalInfo()
+{
+	auto end = chrono::high_resolution_clock::now();
+
+	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
+
+	cout << "Time: " << elapsed_seconds.count() << " seconds.\n";
+}
+
 void Huffman::DisplayHelp()
 {
 	cout << "Welcome to the Huffman Project!\n";
