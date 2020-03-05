@@ -1,13 +1,8 @@
 #include "Huffman.h"
 
-Huffman::Huffman()
+Huffman::Huffman() : nodes{}
 {
 	start = chrono::high_resolution_clock::now();
-
-	for (int i = 0; i < amountOfCharacters; i++)
-	{
-		nodes[i] = nullptr;
-	}
 }
 
 Huffman::~Huffman()
