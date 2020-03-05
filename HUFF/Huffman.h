@@ -48,5 +48,6 @@ private:
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
 	unsigned int getFileSize(string& file_path);
 	void printFinalInfo(string& input_file_path, string& output_file_path);
+	string formatUnsignedInt(unsigned int number);
 	bool isLeaf(treenode* node);
 };

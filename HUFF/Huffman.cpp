@@ -442,7 +442,19 @@ void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 
 	unsigned int bytesOut = getFileSize(output_file_path);
 
-	cout << "Time: " << elapsed_seconds.count() << " seconds.  " << bytesIn << " bytes in / " << bytesOut << " bytes out";
+	cout << "Time: " << elapsed_seconds.count() << " seconds.\t" << formatUnsignedInt(bytesIn) << " bytes in / " << formatUnsignedInt(bytesOut) << " bytes out";
+}
+
+string Huffman::formatUnsignedInt(unsigned int number)
+{
+	string str = to_string(number);
+
+	for (int i = str.length() - 3; i > 0; i -= 3)
+	{
+		str = str.substr(0, i) + "," + str.substr(i, str.length());
+	}
+
+	return str;
 }
 
 void Huffman::DisplayHelp()
