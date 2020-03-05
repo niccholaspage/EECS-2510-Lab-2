@@ -115,9 +115,9 @@ int main(int argc, char* argv[])
 
 	auto end = chrono::high_resolution_clock::now();
 
-	auto elapsed_seconds = end - start;
+	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
 
-	cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+	cout << "Time: " << elapsed_seconds.count() << "s\n";
 
 	return 0;
 }
