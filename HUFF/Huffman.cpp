@@ -362,6 +362,8 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 	encodeBytes();
 
 	closeStreams();
+
+	printFinalInfo(inputFile, outputFile);
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
@@ -376,6 +378,8 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 	decodeBytes();
 
 	closeStreams();
+
+	printFinalInfo(inputFile, outputFile);
 }
 
 void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outputFile)
@@ -407,15 +411,38 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 	encodeBytes();
 
 	closeStreams();
+
+	printFinalInfo(inputFile, outputFile);
 }
 
-void Huffman::printFinalInfo()
+unsigned int Huffman::getFileSize(string& file_path)
+{
+	ifstream stream = ifstream();
+
+	stream.open(file_path, ios::binary);
+
+	streampos beginning = stream.tellg();
+
+	stream.seekg(0, ios::end);
+
+	streampos end = stream.tellg();
+
+	stream.close();
+
+	return end - beginning;
+}
+
+void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 {
 	auto end = chrono::high_resolution_clock::now();
 
 	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
 
-	cout << "Time: " << elapsed_seconds.count() << " seconds.\n";
+	unsigned int bytesIn = getFileSize(input_file_path);
+
+	unsigned int bytesOut = getFileSize(output_file_path);
+
+	cout << "Time: " << elapsed_seconds.count() << " seconds.  " << bytesIn << " bytes in / " << bytesOut << " bytes out";
 }
 
 void Huffman::DisplayHelp()

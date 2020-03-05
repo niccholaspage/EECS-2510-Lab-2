@@ -46,6 +46,7 @@ private:
 	void encodeBits(unsigned char& outputCharacter, int& currentBit, string& bits);
 	void encodeBytes();
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
-	void printFinalInfo();
+	unsigned int getFileSize(string& file_path);
+	void printFinalInfo(string& input_file_path, string& output_file_path);
 	bool isLeaf(treenode* node);
 };
