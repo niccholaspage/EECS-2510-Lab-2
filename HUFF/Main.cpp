@@ -98,7 +98,7 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 
 int main(int argc, char* argv[])
 {
-	auto start = chrono::system_clock::now();
+	auto start = chrono::high_resolution_clock::now();
 
 	Huffman* huffman = new Huffman();
 
@@ -106,9 +106,9 @@ int main(int argc, char* argv[])
 
 	delete huffman;
 
-	auto end = chrono::system_clock::now();
+	auto end = chrono::high_resolution_clock::now();
 
-	chrono::duration<double> elapsed_seconds = end - start;
+	auto elapsed_seconds = end - start;
 
 	cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 
