@@ -105,6 +105,10 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 
 int main(int argc, char* argv[])
 {
+	cout.setf(ios::fixed);
+	cout.setf(ios::showpoint);
+	cout.precision(3);
+
 	auto start = chrono::high_resolution_clock::now();
 
 	Huffman* huffman = new Huffman();
@@ -117,7 +121,7 @@ int main(int argc, char* argv[])
 
 	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
 
-	cout << "Time: " << elapsed_seconds.count() << "s\n";
+	cout << "Time: " << elapsed_seconds.count() << " seconds.\n";
 
 	return 0;
 }
