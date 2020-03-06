@@ -462,14 +462,23 @@ void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 
 string Huffman::formatUnsignedInt(unsigned int number)
 {
-	string str = to_string(number);
+	// This method formats the given unsigned integer by
+	// inserting commas into it, starting from the right of the string
+	// going to the left, inserting commas every 3 numbers.
+	//
+	string str = to_string(number); // Turn the number into a string
 
-	for (int i = str.length() - 3; i > 0; i -= 3)
+	for (int i = str.length() - 3; i > 0; i -= 3) // Loop through the entire string, starting from the end - 3, decrementing by 3.
 	{
-		str = str.substr(0, i) + "," + str.substr(i, str.length());
+		// At this point, i is the position we want to put a comma at.
+		// We simply take a substring of the string from the beginning to i,
+		// add a comma, and add the substring from i to the end of the string,
+		// and set str to it.
+		//
+		str = str.substr(0, i) + "," + str.substr(i);
 	}
 
-	return str;
+	return str; // Return the formatted string
 }
 
 void Huffman::DisplayHelp()
