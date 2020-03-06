@@ -32,7 +32,7 @@ private:
 	string paddingBits;
 	ifstream inputStream;
 	ofstream outputStream;
-	chrono::high_resolution_clock::time_point start;
+	chrono::high_resolution_clock::time_point start; // A point of time that will represent the very beginning of the operation
 
 	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well asitself
 	bool openStreams(string inputFile, string outputFile);
