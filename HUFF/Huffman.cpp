@@ -412,15 +412,31 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 
 unsigned int Huffman::getFileSize(string& file_path)
 {
-	ifstream stream = ifstream();
+	// This method returns the size a file in bytes at the given file path.
+	// It uses an ifstream to do this, by opening a file in binary mode
+	// at the end position and returns the position, which will be the
+	// amount of bytes in the file.
+	//
+	ifstream stream = ifstream(); // Construct a new ifstream
 
+	if (stream.fail()) // If we can't open the input stream,
+	{
+		return -1;	   // we return -1, as we can't find the size if we can't open the file.
+	}
+
+	// Open the stream at the given file path
+	// We open it in binary mode with the binary flag,
+	// and the ate flag, which means "at end." This sets
+	// the stream's position to the end of the stream
+	// when opening.
+	//
 	stream.open(file_path, ios::binary | ios::ate);
 
-	streampos end = stream.tellg();
+	streampos end = stream.tellg(); // Since we are already at the end of the stream, we can use tellg to grab the position of the end
 
-	stream.close();
+	stream.close(); // Cleanup by closing out the stream.
 
-	return end;
+	return end; // Return the end position, which will be the file size in bytes.
 }
 
 void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
