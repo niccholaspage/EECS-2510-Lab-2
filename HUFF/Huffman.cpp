@@ -441,15 +441,23 @@ unsigned int Huffman::getFileSize(string& file_path)
 
 void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 {
-	auto end = chrono::high_resolution_clock::now();
+	// This method prints out the time elapsed and the bytes in from the
+	// size of the file at the input file path as well as the bytes out
+	// from the size of the file at the output file path.
+	//
+	auto end = chrono::high_resolution_clock::now(); // TGet a time point representing the current time.
 
+	// This takes the difference between the end time and start time and casts it into a duration with the double
+	// type, returning the seconds between the end and start time including decimals.
+	//
 	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
 
-	unsigned int bytesIn = getFileSize(input_file_path);
+	unsigned int bytesIn = getFileSize(input_file_path); // Get the file size of the input file
 
-	unsigned int bytesOut = getFileSize(output_file_path);
+	unsigned int bytesOut = getFileSize(output_file_path); // Get the file size of the output file
 
-	cout << "Time: " << elapsed_seconds.count() << " seconds.\t" << formatUnsignedInt(bytesIn) << " bytes in / " << formatUnsignedInt(bytesOut) << " bytes out";
+	cout << "Time: " << elapsed_seconds.count() << " seconds.\t"; // Print out the time elapsed in seconds and a tab
+	cout << formatUnsignedInt(bytesIn) << " bytes in / " << formatUnsignedInt(bytesOut) << " bytes out\n"; // Print the bytes in and out, formatted
 }
 
 string Huffman::formatUnsignedInt(unsigned int number)
