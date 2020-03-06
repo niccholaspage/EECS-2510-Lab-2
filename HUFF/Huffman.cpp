@@ -2,7 +2,7 @@
 
 Huffman::Huffman() : nodes{ nullptr }
 {
-	start = chrono::high_resolution_clock::now();
+	start = chrono::high_resolution_clock::now(); // This sets the starting time position to the current time.
 }
 
 Huffman::~Huffman()
