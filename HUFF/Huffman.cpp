@@ -1,6 +1,6 @@
 #include "Huffman.h"
 
-Huffman::Huffman() : nodes{}
+Huffman::Huffman() : nodes{ nullptr }
 {
 	start = chrono::high_resolution_clock::now();
 }
