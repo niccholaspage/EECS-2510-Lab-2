@@ -414,17 +414,13 @@ unsigned int Huffman::getFileSize(string& file_path)
 {
 	ifstream stream = ifstream();
 
-	stream.open(file_path, ios::binary);
-
-	streampos beginning = stream.tellg();
-
-	stream.seekg(0, ios::end);
+	stream.open(file_path, ios::binary | ios::ate);
 
 	streampos end = stream.tellg();
 
 	stream.close();
 
-	return end - beginning;
+	return end;
 }
 
 void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
