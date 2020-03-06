@@ -445,7 +445,7 @@ void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 	// size of the file at the input file path as well as the bytes out
 	// from the size of the file at the output file path.
 	//
-	auto end = chrono::high_resolution_clock::now(); // TGet a time point representing the current time.
+	auto end = chrono::high_resolution_clock::now(); // Get a time point representing the current time.
 
 	// This takes the difference between the end time and start time and casts it into a duration with the double
 	// type, returning the seconds between the end and start time including decimals.
