@@ -94,6 +94,8 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 		{
 			outputStream.put(leftIndex);
 			outputStream.put(rightIndex);
+
+			bytesOut += 2;
 		}
 
 		treenode* parent = new treenode;
@@ -168,6 +170,8 @@ void Huffman::buildTree()
 
 			outputStream.put(smallestNodeIndex);
 			outputStream.put(nextSmallestNodeIndex);
+
+			bytesOut += 2;
 		}
 		else
 		{
@@ -178,6 +182,8 @@ void Huffman::buildTree()
 
 			outputStream.put(nextSmallestNodeIndex);
 			outputStream.put(smallestNodeIndex);
+
+			bytesOut += 2;
 		}
 	}
 }
@@ -270,6 +276,8 @@ void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
 	{
 		outputStream.put(node->symbol);
 
+		bytesOut++;
+
 		node = nodes[0];
 	}
 }
@@ -282,6 +290,8 @@ void Huffman::decodeBytes()
 
 	while (inputStream.get(character))
 	{
+		bytesIn++;
+
 		unsigned char byte = character;
 
 		navigateTree(byte, 128, currentNode);
@@ -309,6 +319,8 @@ void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string
 		{
 			outputStream.put(outputCharacter);
 
+			bytesOut++;
+
 			outputCharacter = 0;
 
 			currentBit = 0;
@@ -329,6 +341,8 @@ void Huffman::encodeBytes()
 
 	while (inputStream.get(character))
 	{
+		bytesIn++;
+
 		unsigned char symbol = character;
 
 		string& bitString = encodingTable[symbol];
@@ -410,35 +424,6 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 	printFinalInfo(inputFile, outputFile);
 }
 
-unsigned int Huffman::getFileSize(string& file_path)
-{
-	// This method returns the size a file in bytes at the given file path.
-	// It uses an ifstream to do this, by opening a file in binary mode
-	// at the end position and returns the position, which will be the
-	// amount of bytes in the file.
-	//
-	ifstream stream = ifstream(); // Construct a new ifstream
-
-	if (stream.fail()) // If we can't open the input stream,
-	{
-		return -1;	   // we return -1, as we can't find the size if we can't open the file.
-	}
-
-	// Open the stream at the given file path
-	// We open it in binary mode with the binary flag,
-	// and the ate flag, which means "at end." This sets
-	// the stream's position to the end of the stream
-	// when opening.
-	//
-	stream.open(file_path, ios::binary | ios::ate);
-
-	streampos end = stream.tellg(); // Since we are already at the end of the stream, we can use tellg to grab the position of the end
-
-	stream.close(); // Cleanup by closing out the stream.
-
-	return end; // Return the end position, which will be the file size in bytes.
-}
-
 void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 {
 	// This method prints out the time elapsed and the bytes in from the
@@ -451,10 +436,6 @@ void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
 	// type, returning the seconds between the end and start time including decimals.
 	//
 	auto elapsed_seconds = chrono::duration_cast<chrono::duration<double>>(end - start);
-
-	unsigned int bytesIn = getFileSize(input_file_path); // Get the file size of the input file
-
-	unsigned int bytesOut = getFileSize(output_file_path); // Get the file size of the output file
 
 	cout << "Time: " << elapsed_seconds.count() << " seconds.\t"; // Print out the time elapsed in seconds and a tab
 	cout << formatUnsignedInt(bytesIn) << " bytes in / " << formatUnsignedInt(bytesOut) << " bytes out\n"; // Print the bytes in and out, formatted

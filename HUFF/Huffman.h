@@ -32,6 +32,8 @@ private:
 	string paddingBits;
 	ifstream inputStream;
 	ofstream outputStream;
+	unsigned int bytesIn;
+	unsigned int bytesOut;
 	chrono::high_resolution_clock::time_point start; // A point of time that will represent the very beginning of the operation
 
 	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well asitself
@@ -46,7 +48,6 @@ private:
 	void encodeBits(unsigned char& outputCharacter, int& currentBit, string& bits);
 	void encodeBytes();
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node);
-	unsigned int getFileSize(string& file_path);
 	void printFinalInfo(string& input_file_path, string& output_file_path);
 	string formatUnsignedInt(unsigned int number);
 	bool isLeaf(treenode* node);
