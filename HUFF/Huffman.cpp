@@ -2,6 +2,10 @@
 
 Huffman::Huffman() : nodes{ nullptr }
 {
+	bytesIn = 0;
+
+	bytesOut = 0;
+
 	start = chrono::high_resolution_clock::now(); // This sets the starting time position to the current time.
 }
 
