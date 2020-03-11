@@ -9,13 +9,6 @@ using namespace std;
 
 class Huffman {
 public:
-	struct treenode {
-		unsigned char symbol = NULL;
-		unsigned int weight = 0;
-		treenode* leftChild = nullptr;
-		treenode* rightChild = nullptr;
-	};
-
 	Huffman();
 	~Huffman();
 
@@ -25,6 +18,13 @@ public:
 	void EncodeFileWithTree(string inputFile, string treeFile, string outputFile);
 	void DisplayHelp();
 private:
+	struct treenode {
+		unsigned char symbol = NULL;
+		unsigned int weight = 0;
+		treenode* leftChild = nullptr;
+		treenode* rightChild = nullptr;
+	};
+
 	const static int amountOfCharacters = 256;
 
 	treenode* nodes[amountOfCharacters];
