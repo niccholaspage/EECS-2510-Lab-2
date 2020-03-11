@@ -19,17 +19,17 @@ public:
 	void DisplayHelp();
 private:
 	struct treenode {
-		unsigned char symbol = NULL;
-		unsigned int weight = 0;
-		treenode* leftChild = nullptr;
-		treenode* rightChild = nullptr;
+		unsigned char symbol = NULL;	// The symbol of the node
+		unsigned int weight = 0;		// The weight of the node (amount of times the character appears in a file)
+		treenode* leftChild = nullptr;	// A pointer to the left child of the node
+		treenode* rightChild = nullptr;	// A pointer to the right child of the node
 	};
 
 	const static int amountOfCharacters = 256;
 
-	treenode* nodes[amountOfCharacters];
-	string encodingTable[amountOfCharacters];
-	string paddingBits;
+	treenode* nodes[amountOfCharacters];		// An array of node pointers used to build the Huffman tree and encode/decode files.
+	string encodingTable[amountOfCharacters];	// A string array containing the encoding bits for each type of character
+	string paddingBits;							// A string referring to padding bits that can be written at the end of a byte if extra bits are needed.
 	ifstream inputStream;
 	ofstream outputStream;
 	unsigned int bytesIn;
