@@ -36,7 +36,7 @@ private:
 	unsigned int bytesOut;
 	chrono::high_resolution_clock::time_point start; // A point of time that will represent the very beginning of the operation
 
-	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well asitself
+	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well as itself
 	bool openStreams(string inputFile, string outputFile);
 	void closeStreams();
 	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex);
