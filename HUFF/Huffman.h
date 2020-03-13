@@ -37,11 +37,11 @@ private:
 	chrono::high_resolution_clock::time_point start; // A point of time that will represent the very beginning of the operation
 
 	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well as itself
-	bool openStreams(string inputFile, string outputFile); // A method that opens the input and output streams for the given input and output files
-	void closeStreams(); // A method that closes out both the input and output streams
-	int getIndexOfSmallestNode(int skipIndex); // A method that returns the smallest node index in the array, skipping the given index
-	void buildTree();
-	void buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput);
+	bool openStreams(string inputFile, string outputFile); // Opens the input and output streams for the given input and output files
+	void closeStreams(); // Closes out both the input and output streams
+	int getIndexOfSmallestNode(int skipIndex); // Returns the smallest node index in the array, skipping the given index
+	void buildTree(); // Builds the tree of nodes by reading the input file and determining frequencies and writes the combinations of nodes to the output stream
+	void buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput); // Builds the tree of nodes by combining nodes based on the given stream.
 	void buildEncodingTable();
 	void buildEncodingTable(treenode* node, string currentPath);
 	void decodeBytes();
