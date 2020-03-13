@@ -39,7 +39,7 @@ private:
 	void traverseDestruct(treenode* p); // Traverses through the given node and deletes its children recursively as well as itself
 	bool openStreams(string inputFile, string outputFile); // A method that opens the input and output streams for the given input and output files
 	void closeStreams(); // A method that closes out both the input and output streams
-	int getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex); // A method that returns the smallest node index in the array, skipping the given index
+	int getIndexOfSmallestNode(int skipIndex); // A method that returns the smallest node index in the array, skipping the given index
 	void buildTree();
 	void buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput);
 	void buildEncodingTable();

@@ -43,7 +43,7 @@ void Huffman::traverseDestruct(treenode* p) {
 	delete p;
 }
 
-int Huffman::getIndexOfSmallestNode(treenode* nodes[amountOfCharacters], int skipIndex)
+int Huffman::getIndexOfSmallestNode(int skipIndex)
 {
 	int smallestNodeIndex = -1;
 	unsigned int smallestWeight = UINT_MAX;
@@ -154,8 +154,8 @@ void Huffman::buildTree()
 
 	for (int i = 0; i < amountOfCharacters - 1; i++)
 	{
-		int smallestNodeIndex = getIndexOfSmallestNode(nodes, -1);
-		int nextSmallestNodeIndex = getIndexOfSmallestNode(nodes, smallestNodeIndex);
+		int smallestNodeIndex = getIndexOfSmallestNode(-1);
+		int nextSmallestNodeIndex = getIndexOfSmallestNode(smallestNodeIndex);
 
 		treenode* parent = new treenode;
 
