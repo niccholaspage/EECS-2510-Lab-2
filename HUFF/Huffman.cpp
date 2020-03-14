@@ -2,20 +2,25 @@
 
 Huffman::Huffman() : nodes{ nullptr }
 {
-	bytesIn = 0;
+	// The constructor. We just need to intialize all of our member variables:
+	//
+	bytesIn = 0;	// Initialize our bytes in to zero, as we haven't read any bytes yet.
 
-	bytesOut = 0;
+	bytesOut = 0;	// Initialize our bytes out to zero as well, as we haven't written any bytes either.
 
-	start = chrono::high_resolution_clock::now(); // This sets the starting time position to the current time.
+	start = chrono::high_resolution_clock::now(); // We set the starting time position to the current time.
 }
 
 Huffman::~Huffman()
 {
+	// In the destructor, we need to make sure we properly clean up the nodes we had.
+	// To do this, we loop through node in the nodes array.
+	//
 	for (int i = 0; i < amountOfCharacters; i++)
 	{
-		if (nodes[i] != nullptr)
+		if (nodes[i] != nullptr) // If a node exists at element i in the nodes array...
 		{
-			traverseDestruct(nodes[i]);
+			traverseDestruct(nodes[i]); // We call the traverseDestruct method to take care of the node and its children, recursively.
 		}
 	}
 }
