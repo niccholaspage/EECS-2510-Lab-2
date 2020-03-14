@@ -134,22 +134,31 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 
 void Huffman::buildTree()
 {
+	// This method builds the Huffman tree by determining the frequencies of each character in the input file,
+	// constructing tree nodes for each character, then combining the two smallest nodes until we are left with
+	// one root node.
+	//
+	// We start by creating an array of unsigned integers that keep track of the amount
+	// of times a character occurs in the input file.
 	unsigned int frequencyTable[amountOfCharacters];
 
-	for (int i = 0; i < amountOfCharacters; i++)
+	for (int i = 0; i < amountOfCharacters; i++) // We want to loop through each index of the frequency table array,
 	{
-		frequencyTable[i] = 0;
+		frequencyTable[i] = 0; // and initialize its value to 0.
 	}
 
-	char character;
+	char character; // We declare this variable so that it can hold each character we read from the file
 
+	 // While ifstream::get returns a non false value, the next character from the file will be put into our character variable.
 	while (inputStream.get(character))
 	{
-		// BY COERCING INTO A UNSIGNED CHAR, WE FIX THE ARRAY INDEX ACCESS OTHERWISE,
-		// WE ACCESS ARRAY INDEXES OUT OF THE FREQUENCY TABLE SIZE AND MESS THINGS UP!
+		// By coercing the character into an unsigned char, we solve the issue with invalid array indexing - normally,
+		// a char will range from -128 to 127, so without this, we may access the array at index -127 to -1!
+		// By casting it to a unsigned char, it's value will range from 0 to 255, fixing any possible indexing issues.
+		//
 		unsigned char symbol = character;
 
-		frequencyTable[symbol]++;
+		frequencyTable[symbol]++; // We increment the frequency at the index of the symbol by 1. In this case, symbol implicitly is casted into an int.
 	}
 
 	for (int i = 0; i < amountOfCharacters; i++)
