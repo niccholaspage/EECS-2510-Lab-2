@@ -161,18 +161,18 @@ void Huffman::buildTree()
 		frequencyTable[symbol]++; // We increment the frequency at the index of the symbol by 1. In this case, symbol implicitly is casted into an int.
 	}
 
-	for (int i = 0; i < amountOfCharacters; i++)
+	for (int i = 0; i < amountOfCharacters; i++) // We now want to loop through every index of the nodes array.
 	{
-		unsigned char symbol = i;
+		unsigned char symbol = i;		// We set our symbol to i, which will implicitly cast the int into an unsigned char.
 
-		treenode* node = new treenode;
+		treenode* node = new treenode;	// We construct a new tree node,
+		
+		node->symbol = symbol;			// set its symbol to our symbol from the for loop,
+		node->weight = frequencyTable[symbol]; //set its weight to the frequency of the symbol,
+		node->leftChild = nullptr;  // and set the left child to nullptr,
+		node->rightChild = nullptr; // and the right child to nullptr.
 
-		node->symbol = symbol;
-		node->weight = frequencyTable[symbol];
-		node->leftChild = nullptr;
-		node->rightChild = nullptr;
-
-		nodes[i] = node;
+		nodes[i] = node; // Now that we've finished building our node, we set the element at index i of the nodes array to our node.
 	}
 
 	for (int i = 0; i < amountOfCharacters - 1; i++)
