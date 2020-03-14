@@ -84,47 +84,51 @@ int Huffman::getIndexOfSmallestNode(int skipIndex)
 
 void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 {
-	for (int i = 0; i < amountOfCharacters; i++)
+	// This method builds the Huffman tree by combining nodes based
+	// on the first 510 bytes of the input stream passed in. If the
+	// write to output parameter is on, the bytes will be written
+	// to the output stream.
+	//
+	for (int i = 0; i < amountOfCharacters; i++) // We want to loop through every index in the nodes array,
 	{
-		unsigned char symbol = i;
+		treenode* node = new treenode; // construct a new treenode,
 
-		treenode* node = new treenode;
+		node->symbol = i; // set its symbol to the index i, which gets implicitly casted to a unsigned character,
+		node->weight = 0; // set the weight to 0, as we don't care about it since we already have the order we are pairing things up in,
+		node->leftChild = nullptr; // set the left child to null,
+		node->rightChild = nullptr; // set the right child to null,
 
-		node->symbol = symbol;
-		node->weight = 0; // We don't care about the weight, as we already have the order we are pairing things up in
-		node->leftChild = nullptr;
-		node->rightChild = nullptr;
-
-		nodes[i] = node;
+		nodes[i] = node; // and set the index at i of the nodes array to our newly constructed node.
 	}
 
 	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
-	for (int i = 0; i < amountOfCharacters - 1; i++)
+	for (int i = 0; i < amountOfCharacters - 1; i++) // Since we are combining nodes based on 510 bytes, we do 255 iterations, or 255 combinations.
 	{
-		unsigned char leftIndex = stream.get();
-		unsigned char rightIndex = stream.get();
+		unsigned char leftIndex = stream.get();		// We get the character representing the left index of the nodes we are going to combine,
+		unsigned char rightIndex = stream.get();	// and we also get the character representing the right index.
 
-		if (writeToOutput)
+		if (writeToOutput) // If we are writing to the output stream,
 		{
-			outputStream.put(leftIndex);
-			outputStream.put(rightIndex);
+			outputStream.put(leftIndex);	// we write the left index
+			outputStream.put(rightIndex);	// as well as the right index.
 
-			bytesOut += 2;
+			bytesOut += 2; // Since we've written two characters to the output stream, we need to increment our bytes out by two.
 		}
 
-		treenode* parent = new treenode;
+		treenode* parent = new treenode; // We construct a new node that will act as the parent of the nodes at the left and right index.
 
-		treenode* firstNode = nodes[leftIndex];
-		treenode* secondNode = nodes[rightIndex];
+		treenode* leftNode = nodes[leftIndex];		// We get the node at the left index
+		treenode* rightNode = nodes[rightIndex];	// as well as the right index.
 
-		parent->symbol = NULL;
-		parent->weight = 0; // we don't care about weight
+		parent->symbol = NULL; // Parent nodes don't need to have a valid symbol, so we just set it to NULL.
+		parent->weight = 0; // We don't care about the weight, since just like before, we already have the order we are pairing things up in.
 
-		parent->leftChild = firstNode;
-		parent->rightChild = secondNode;
+		parent->leftChild = leftNode;	// We set the parent's left child to the left node
+		parent->rightChild = rightNode;	// and the parent's right child to the right node.
 
-		nodes[leftIndex] = parent;
-		nodes[rightIndex] = nullptr;
+		// Now that we've finished setting up the parent,
+		nodes[leftIndex] = parent;		// we can set the node at the left index in the nodes array to the parent,
+		nodes[rightIndex] = nullptr;	// and set the right index in the nodes array to nullptr.
 	}
 }
 
