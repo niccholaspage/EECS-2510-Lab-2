@@ -235,6 +235,9 @@ void Huffman::buildTree()
 
 bool Huffman::isLeaf(treenode* node)
 {
+	// This method simply checks if the given node is a leaf,
+	// meaning it has no left or right child.
+	//
 	return node->leftChild == nullptr && node->rightChild == nullptr;
 }
 
