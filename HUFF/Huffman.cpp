@@ -175,43 +175,61 @@ void Huffman::buildTree()
 		nodes[i] = node; // Now that we've finished building our node, we set the element at index i of the nodes array to our node.
 	}
 
-	for (int i = 0; i < amountOfCharacters - 1; i++)
+	for (int i = 0; i < amountOfCharacters - 1; i++) // Since we are combining 256 nodes, we need to do 255 iterations.
 	{
+		// We first get the smallest node index, passing -1 as our skip index since we don't want to skip any node.
 		int smallestNodeIndex = getIndexOfSmallestNode(-1);
+
+		// Now we get the next smallest node index, passing in our smallest node index so that we skip it.
 		int nextSmallestNodeIndex = getIndexOfSmallestNode(smallestNodeIndex);
 
-		treenode* parent = new treenode;
+		treenode* parent = new treenode; // We now need to construct a parent node that will have these smallest nodes as children.
 
-		treenode* smallestNode = nodes[smallestNodeIndex];
-		treenode* nextSmallestNode = nodes[nextSmallestNodeIndex];
+		treenode* smallestNode = nodes[smallestNodeIndex];			// We get the node at the smallest node index
+		treenode* nextSmallestNode = nodes[nextSmallestNodeIndex];	// and the node at the next smallest node index.
 
-		parent->symbol = NULL;
-		parent->weight = smallestNode->weight + nextSmallestNode->weight;
+		parent->symbol = NULL; // In a Huffman tree, a parentnode's symbol doesn't matter, so we set it to NULL.
+		parent->weight = smallestNode->weight + nextSmallestNode->weight; // The parent's weight is the sum of its two childrens' weights.
 
+		// We always want the node with the smallest index to be the left child,
+		// so we check if the smallest node's index is less than the next smallest
+		// node's index. We also always want the parent node to be put into the
+		// smaller index of the two node indices.
+		//
 		if (smallestNodeIndex < nextSmallestNodeIndex)
 		{
-			parent->leftChild = smallestNode;
-			parent->rightChild = nextSmallestNode;
-			nodes[smallestNodeIndex] = parent;
-			nodes[nextSmallestNodeIndex] = nullptr;
+			parent->leftChild = smallestNode;		// In this case, the left child is the smallest node,
+			parent->rightChild = nextSmallestNode;	// and the right child is the next smallest node.
 
+			// Since the smallest node's index is smaller than the next smallest node's index, we put the
+			// parent node in that index of the nodes array.
+			nodes[smallestNodeIndex] = parent;
+			nodes[nextSmallestNodeIndex] = nullptr; // We then set the element at the other index to nullptr.
+
+			// Finally, we write the smallest node index and next smallest node index to the
+			// output stream so that our program can properly rebuild the tree by knowing
+			// which nodes to combine.
 			outputStream.put(smallestNodeIndex);
 			outputStream.put(nextSmallestNodeIndex);
-
-			bytesOut += 2;
 		}
 		else
 		{
-			parent->leftChild = nextSmallestNode;
-			parent->rightChild = smallestNode;
-			nodes[nextSmallestNodeIndex] = parent;
-			nodes[smallestNodeIndex] = nullptr;
+			parent->leftChild = nextSmallestNode;	// In this case, the left child is the next smallest node,
+			parent->rightChild = smallestNode;		// and the right child is the smallest node.
 
+			// Since the next smallest node's index is smaller than the smallest node's index, we put the
+			// parent node in that index of the nodes array.
+			nodes[nextSmallestNodeIndex] = parent;
+			nodes[smallestNodeIndex] = nullptr; // We then set the element at the other index to nullptr.
+
+			// Finally, we write the next smallest node index and smallest node index to the
+			// output stream so that our program can properly rebuild the tree by knowing
+			// which nodes to combine.
 			outputStream.put(nextSmallestNodeIndex);
 			outputStream.put(smallestNodeIndex);
-
-			bytesOut += 2;
 		}
+
+		bytesOut += 2; // We increment the bytes out by 2, as we have written two characters to the file.
 	}
 }
 
