@@ -50,30 +50,35 @@ void Huffman::traverseDestruct(treenode* p) {
 
 int Huffman::getIndexOfSmallestNode(int skipIndex)
 {
-	int smallestNodeIndex = -1;
-	unsigned int smallestWeight = UINT_MAX;
+	// This method returns the index of the smallest node in the array (based on a node's weight).
+	// To do this, we will loop through every node in the nodes array, keeping track of
+	// the index and weight of the smallest node.
+	int smallestNodeIndex = -1; // Set up a variable to keep track of the index of the smallest node
+	unsigned int smallestWeight = UINT_MAX; // Initialize the smallest weight to the maximum unsigned integer.
 
-	for (int i = 0; i < amountOfCharacters; i++)
+	for (int i = 0; i < amountOfCharacters; i++) // Loop through every node in the nodes array
 	{
-		if (skipIndex == i)
+		if (skipIndex == i) // If i is the index we want to skip,
 		{
-			continue;
+			continue;		// we continue, as we don't want to check the node at this index.
 		}
 
-		treenode* node = nodes[i];
+		treenode* node = nodes[i]; // Get the node pointer at index i of the nodes array
 
-		if (node == nullptr)
+		if (node == nullptr)	// If the node pointer is nullptr, we have no weight to check,
 		{
-			continue;
+			continue;			// so we continue to the next node.
 		}
 
-		if (node->weight < smallestWeight)
+		if (node->weight < smallestWeight)	// If the node's weight is smaller than the smallest weight,
 		{
-			smallestNodeIndex = i;
-			smallestWeight = node->weight;
+			smallestNodeIndex = i;			// we set the smallest node index to i,
+			smallestWeight = node->weight;	// and we set the smallest weight to the node's weight.
 		}
 	}
 
+	// Since we've checked every node in the array and have the
+	// smallest node index, we can now return it.
 	return smallestNodeIndex;
 }
 
