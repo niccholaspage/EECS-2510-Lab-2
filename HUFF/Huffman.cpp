@@ -243,6 +243,14 @@ bool Huffman::isLeaf(treenode* node)
 
 void Huffman::buildEncodingTable()
 {
+	// This method builds the encoding table so that each character
+	// in a file will have an encoding string for it inside of the
+	// encoding table array. It is simply a convenience method that
+	// calls the recursive function buildEncodingTable. Unfortunately,
+	// non-static member variables can't be used as default parameters,
+	// so this method is required instead of just having default parameters
+	// of the buildEncodingTable method below.
+	//
 	buildEncodingTable(nodes[0], "");
 }
 
