@@ -353,7 +353,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 	closeStreams(); // We've finished building the tree builder file so we close our input and output streams.
 
-	printFinalInfo(inputFile, outputFile);
+	printFinalInfo(inputFile, outputFile); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
 
 void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
