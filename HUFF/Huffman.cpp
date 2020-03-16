@@ -166,7 +166,7 @@ void Huffman::buildTree()
 		unsigned char symbol = i;		// We set our symbol to i, which will implicitly cast the int into an unsigned char.
 
 		treenode* node = new treenode;	// We construct a new tree node,
-		
+
 		node->symbol = symbol;			// set its symbol to our symbol from the for loop,
 		node->weight = frequencyTable[symbol]; //set its weight to the frequency of the symbol,
 		node->leftChild = nullptr;  // and set the left child to nullptr,
@@ -292,32 +292,46 @@ void Huffman::buildEncodingTable(treenode* node, string path)
 
 bool Huffman::openStreams(string inputFile, string outputFile)
 {
+	// This method opens the input and output streams for the given input and output
+	// file paths so that the program can read the input file and write to the
+	// output file. If either stream fails to open, the method returns false,
+	// otherwise, true.
+	//
+	// Open the input stream with the input file as the path. We need to open the stream in binary mode,
+	// since we are going to read the file in binary instead of text.
 	inputStream.open(inputFile, ios::binary);
 
-	if (inputStream.fail())
+	if (inputStream.fail()) // If the input stream fails to open,
 	{
-		cout << "Unable to open input file." << endl;
+		cout << "Unable to open input file." << endl; // we print a message saying we couldn't open the input file,
 
-		return false;
+		return false; // and return false since we failed to open the input stream.
 	}
 
-	outputStream.open(outputFile, ios::binary); // THIS IS PROBABLY NOT IT CHIEF.
+	// Open the output stream with the output file as the path. We need to open the stream in binary mode,
+	// since we are going to write to the file in binary instead of text.
+	outputStream.open(outputFile, ios::binary);
 
-	if (outputStream.fail())
+	if (outputStream.fail()) // If the output stream fails to open,
 	{
-		cout << "Unable to open output file." << endl;
+		cout << "Unable to open output file." << endl; // we print a message saying we couldn't open the output file,
 
-		return false;
+		inputStream.close(); // Since the input stream at this point has been opened, we need to be sure to close it.
+
+		return false; // and return false since we failed to open the output stream.
 	}
 
-	return true;
+	return true; // Since we at this point have opened the input and output streams, we can return true because of success!
 }
 
 void Huffman::closeStreams()
 {
-	inputStream.close();
+	// This method simply closes the input and output streams as cleanup since we have
+	// finished reading the input file and writing the output file.
+	//
+	inputStream.close(); // Close the input stream
 
-	outputStream.close();
+	outputStream.close(); // Close the output stream
 }
 
 void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
