@@ -159,6 +159,8 @@ void Huffman::buildTree()
 		unsigned char symbol = character;
 
 		frequencyTable[symbol]++; // We increment the frequency at the index of the symbol by 1. In this case, symbol implicitly is casted into an int.
+
+		bytesIn++; // We increment the bytes in by one, since we have read another byte of the file.
 	}
 
 	for (int i = 0; i < amountOfCharacters; i++) // We now want to loop through every index of the nodes array.
@@ -350,6 +352,8 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	buildTree();
 
 	closeStreams(); // We've finished building the tree builder file so we close our input and output streams.
+
+	printFinalInfo(inputFile, outputFile);
 }
 
 void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
@@ -425,8 +429,6 @@ void Huffman::encodeBytes()
 
 	while (inputStream.get(character))
 	{
-		bytesIn++;
-
 		unsigned char symbol = character;
 
 		string& bitString = encodingTable[symbol];
