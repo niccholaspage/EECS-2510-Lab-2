@@ -349,8 +349,6 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 	// huffman tree to the output file.
 	buildTree();
 
-	buildEncodingTable();
-
 	closeStreams(); // We've finished building the tree builder file so we close our input and output streams.
 }
 
