@@ -256,25 +256,36 @@ void Huffman::buildEncodingTable()
 
 void Huffman::buildEncodingTable(treenode* node, string path)
 {
-	if (isLeaf(node))
+	// This recursive method builds the encoding table for each character
+	// by following the given node's left and right children, building a path
+	// of 0's and 1's on the direction taken to reach a certain leaf node, or
+	// symbol.
+	//
+	if (isLeaf(node)) // If the node is a leaf, we are at a node with a symbol,
 	{
-		encodingTable[node->symbol] = path;
+		encodingTable[node->symbol] = path; // so we need to set the encoding bits for the symbol.
 
+		 // If the path's length is greater than 7, it can be used as padding bits
+		// if additional bits are needed during encoding for the last byte of a file.
 		if (path.length() > 7)
 		{
-			paddingBits = path;
+			paddingBits = path; // Set the padding bits to the path so that it can be used later during encoding
 		}
 
-		return;
+		return; // Since this node was a leaf, we don't need to check its left or right child, so we just return
 	}
 
-	if (node->leftChild != nullptr)
+	if (node->leftChild != nullptr) // If the left child of the node isn't null,
 	{
+		// We recursively call this method to build the encoding table for the left child, passing in the given
+		// path + 0, since 0 represents moving to the left child
 		buildEncodingTable(node->leftChild, path + "0");
 	}
 
-	if (node->rightChild != nullptr)
+	if (node->rightChild != nullptr) // If the right child of the node isn't null,
 	{
+		// We recursively call this method to build the encoding table for the right child, passing in the given
+		// path + 1, since 1 represents moving to the right child
 		buildEncodingTable(node->rightChild, path + "1");
 	}
 }
