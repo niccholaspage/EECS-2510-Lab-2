@@ -48,7 +48,7 @@ private:
 	void encodeBits(unsigned char& outputCharacter, int& currentBit, string& bits); // Encodes the given bits into the output file
 	void encodeBytes(); // Encodes the bytes of the input file
 	void navigateTree(unsigned char byte, int bitToCheck, treenode*& node); // Navigates through the tree by checking the given bit and navigating to the left and right child of the given node
-	void printFinalInfo(string& input_file_path, string& output_file_path); // Prints the final information after the operation ran, like the time elapsed and bytes in and out
+	void printFinalInfo(); // Prints the final information after the operation ran, like the time elapsed and bytes in and out
 	string formatUnsignedInt(unsigned int number); // Formats an unsigned integer by inserting commas into it, returning a string
 	bool isLeaf(treenode* node); // Checks if the given node is a leaf
 };

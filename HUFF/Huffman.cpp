@@ -353,7 +353,7 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 	closeStreams(); // We've finished building the tree builder file so we close our input and output streams.
 
-	printFinalInfo(inputFile, outputFile); // We're done, so we can print the elapsed time and amount of bytes in and out.
+	printFinalInfo(); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
 
 void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
@@ -458,7 +458,7 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 
 	closeStreams();
 
-	printFinalInfo(inputFile, outputFile);
+	printFinalInfo();
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
@@ -474,7 +474,7 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 
 	closeStreams();
 
-	printFinalInfo(inputFile, outputFile);
+	printFinalInfo();
 }
 
 void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outputFile)
@@ -507,10 +507,10 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 
 	closeStreams();
 
-	printFinalInfo(inputFile, outputFile);
+	printFinalInfo();
 }
 
-void Huffman::printFinalInfo(string& input_file_path, string& output_file_path)
+void Huffman::printFinalInfo()
 {
 	// This method prints out the time elapsed and the bytes in from the
 	// size of the file at the input file path as well as the bytes out
