@@ -336,17 +336,22 @@ void Huffman::closeStreams()
 
 void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 {
-	if (!openStreams(inputFile, outputFile))
+	// This method makes a tree builder file at the given output file path from the given input file.
+	//
+	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
 	{
-		return;
+		return; // we return, since we can't do anything.
 	}
 
 
+	// We build the tree. This method will read the bytes of the input file, building a frequency table
+	// and huffman tree. This method will write the bytes needed for the tree builder as it builds the
+	// huffman tree to the output file.
 	buildTree();
 
 	buildEncodingTable();
 
-	closeStreams();
+	closeStreams(); // We've finished building the tree builder file so we close our input and output streams.
 }
 
 void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
