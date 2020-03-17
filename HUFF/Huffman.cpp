@@ -147,7 +147,7 @@ void Huffman::buildTree()
 		frequencyTable[i] = 0; // and initialize its value to 0.
 	}
 
-	char character; // We declare this variable so that it can hold each character we read from the file
+	char character; // This variable will hold each character we read from the input stream
 
 	 // While ifstream::get returns a non false value, the next character from the file will be put into our character variable.
 	while (inputStream.get(character))
@@ -358,38 +358,60 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 void Huffman::navigateTree(unsigned char byte, int bitToCheck, treenode*& node)
 {
+	// This method navigates to a child of the given node by checking if the given bit
+	// is flipped on in the given byte. This is used during the decoding process to
+	// find characters to write to the ouput file. Something important to note is the
+	// use of a node pointer reference - the reason we are using this is so that we can
+	// change the node pointer to point to a different node and have it properly update
+	// for the caller of this method.
+	//
+	// First, we do a bitwise AND of the given byte and bit we are checking. If the result is a non-zero value,
+	// it means that the specific bit of the byte was turned on, or 1, so we navigate to the right child. Otherwise,
+	// we navigate to the left child.
 	node = byte & bitToCheck ? node->rightChild : node->leftChild;
 
-	if (isLeaf(node))
+	if (isLeaf(node)) // If the node is a leaf, it will have a valid symbol,
 	{
-		outputStream.put(node->symbol);
+		outputStream.put(node->symbol); // so we write it to the output stream,
 
-		bytesOut++;
+		bytesOut++; // increment our bytes out counter since we just wrote a byte,
 
-		node = nodes[0];
+		node = nodes[0]; // and reset the node pointer reference back to the head of the tree for future calls.
 	}
 }
 
 void Huffman::decodeBytes()
 {
-	char character;
+	// This method decodes all of the bytes of the input stream. We do this
+	// by reading in each byte of the input stream, and navigate the Huffman
+	// tree repeatedly until we reach a leaf node, then write the node's symbol
+	// to the output stream. We then start back at the root of the Huffman tree
+	// and continue until we are out of bytes.
+	//
+	char character; // This variable will hold each character we read from the input stream.
 
+	 // We set a variable for the current node at the 0th element of our nodes array,
+	// since by this point, we will have built our Huffman tree and its root will always
+	// be at nodes[0]. We use this pointer to navigate the Huffman tree, finding leaf
+	// nodes so that we can write their symbols to the file.
 	treenode* currentNode = nodes[0];
 
-	while (inputStream.get(character))
+	while (inputStream.get(character)) // While the input stream successfully reads in a character,
 	{
-		bytesIn++;
+		bytesIn++; // We increment our bytes in counter since we have read a byte.
 
+		// We are using our character as a an 8-bit byte with a value of 0 to 255, so we implicitly
+		// cast it into a unsigned char.
 		unsigned char byte = character;
 
-		navigateTree(byte, 128, currentNode);
-		navigateTree(byte, 64, currentNode);
-		navigateTree(byte, 32, currentNode);
-		navigateTree(byte, 16, currentNode);
-		navigateTree(byte, 8, currentNode);
-		navigateTree(byte, 4, currentNode);
-		navigateTree(byte, 2, currentNode);
-		navigateTree(byte, 1, currentNode);
+		navigateTree(byte, 128, currentNode); // Use the navigateTree method to go to the correct node's child based on the first bit from the left
+		navigateTree(byte, 64, currentNode); // Use the navigateTree method to go to the correct node's child based on the second bit
+		navigateTree(byte, 32, currentNode); // Use the navigateTree method to go to the correct node's child based on the third bit
+		navigateTree(byte, 16, currentNode); // Use the navigateTree method to go to the correct node's child based on the fourth bit
+		navigateTree(byte, 8, currentNode); // Use the navigateTree method to go to the correct node's child based on the fifth bit
+		navigateTree(byte, 4, currentNode); // Use the navigateTree method to go to the correct node's child based on the sixth bit
+		navigateTree(byte, 2, currentNode); // Use the navigateTree method to go to the correct node's child based on the seventh bit
+		navigateTree(byte, 1, currentNode); // Use the navigateTree method to go to the correct node's child based on the eighth bit
 	}
 }
 
