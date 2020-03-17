@@ -339,6 +339,8 @@ void Huffman::closeStreams()
 void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 {
 	// This method makes a tree builder file at the given output file path from the given input file.
+	// To do this, we have to open our input streams, build our Huffman tree, which will write the bytes 
+	// needed to our output file, then close the streams and print out our final info.
 	//
 	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
 	{
@@ -498,20 +500,28 @@ void Huffman::encodeBytes()
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
 {
-	if (!openStreams(inputFile, outputFile))
+	// This method encodes the given input file into the given output file path.
+	// To do this, we open the streams, build a Huffman tree from the input file,
+	// build our encoding table for each character, and encode the bytes. We then
+	// finish up by closing the streams and printing our final info.
+	//
+	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
 	{
-		return;
+		return; // we return, since we can't do anything.
 	}
 
+	// We build the tree. This method will read the bytes of the input file, building a frequency table
+	// and huffman tree. This method will write the bytes needed for the tree builder as it builds the
+	// huffman tree to the output file.
 	buildTree();
 
-	buildEncodingTable();
+	buildEncodingTable(); // We build the encoding table so we can encode each character of the input file.
 
-	encodeBytes();
+	encodeBytes(); // Now we encode each byte of the input stream.
 
-	closeStreams();
+	closeStreams(); // We've finished encoding each byte of the file, so we close our input and output streams.
 
-	printFinalInfo();
+	printFinalInfo(); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
@@ -527,7 +537,7 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 
 	closeStreams();
 
-	printFinalInfo();
+	printFinalInfo(); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
 
 void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outputFile)
@@ -560,7 +570,7 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 
 	closeStreams();
 
-	printFinalInfo();
+	printFinalInfo(); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
 
 void Huffman::printFinalInfo()
