@@ -267,7 +267,7 @@ void Huffman::buildEncodingTable(treenode* node, string path)
 	{
 		encodingTable[node->symbol] = path; // so we need to set the encoding bits for the symbol.
 
-		 // If the path's length is greater than 7, it can be used as padding bits
+		// If the path's length is greater than 7, it can be used as padding bits
 		// if additional bits are needed during encoding for the last byte of a file.
 		if (path.length() > 7)
 		{
@@ -458,28 +458,41 @@ void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string
 
 void Huffman::encodeBytes()
 {
-	inputStream.clear();
-	inputStream.seekg(0);
+	// This method encodes each character of the input stream by finding its encoding bits
+	// in the encoding table and writes them out to the output stream as bytes are formed from
+	// each set of 8 bits.
+	//
+	// By this point, we may have read every byte of the file for our generation of our Huffman tree,
+	// so we need to reset the input stream so we can read the input file again.
+	inputStream.clear();	// We clear the internal error state flags of the input stream,
+	inputStream.seekg(0);	// and we set the position in the input sequence to 0, or the beginning of the file.
 
-	char character;
+	char character; // This variable will hold each character we read from the input stream
 
-	unsigned char outputCharacter = 0; // Character we are working on writing
+	unsigned char outputCharacter = 0; // This character will hold the byte we will be writing out to the output stream.
 
-	int currentBit = 0; // The current bit we are on
+	int currentBit = 0; // The current bit we are changing in the output character
 
-	while (inputStream.get(character))
+	while (inputStream.get(character)) // While the input stream successfully reads in a character, we will encode the character's bits.
 	{
+		// By coercing the character into an unsigned char, we solve the issue with invalid array indexing - normally,
+		// a char will range from -128 to 127, so without this, we may access the array at index -127 to -1!
+		// By casting it to a unsigned char, it's value will range from 0 to 255, fixing any possible indexing issues.
+		//
 		unsigned char symbol = character;
 
-		string& bitString = encodingTable[symbol];
+		string& bitString = encodingTable[symbol]; // We get the bit string for encoding the symbol we read from the file.
 
-		encodeBits(outputCharacter, currentBit, bitString);
+		encodeBits(outputCharacter, currentBit, bitString); // We encode the bits of the symbol into our output character.
 	}
 
-	// Handling case here, where we need to finish writing a byte, so we finish the byte with padding bits.
+	// At this point, we may be in the middle of an output character, and we don't to forget to write some
+	// bits to our file. To finish off the byte, we need to write some padding bits that won't inadvertently
+	// be a valid character. Since we've already set our padding bits member variable, we can just encode
+	// those bits and our file will be taken care of.
 	if (currentBit != 0)
 	{
-		encodeBits(outputCharacter, currentBit, paddingBits);
+		encodeBits(outputCharacter, currentBit, paddingBits); // Encode the padding bits into our output character.
 	}
 }
 
