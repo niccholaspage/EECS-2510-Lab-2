@@ -500,7 +500,7 @@ void Huffman::encodeBytes()
 
 void Huffman::EncodeFile(string inputFile, string outputFile)
 {
-	// This method encodes the given input file into the given output file path.
+	// This method encodes the given input file into the given output file.
 	// To do this, we open the streams, build a Huffman tree from the input file,
 	// build our encoding table for each character, and encode the bytes. We then
 	// finish up by closing the streams and printing our final info.
@@ -526,16 +526,25 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 
 void Huffman::DecodeFile(string inputFile, string outputFile)
 {
+	// This method decodes the given input file into the given output file.
+	// To do this, we open the streams, build a Huffman tree from the tree builder
+	// in the input file, which is the first 510 bytes of the input file. We then
+	// decode the remaining bytes of the input file. We then finish up by closing
+	// the streams and printing our final info.
+	//
 	if (!openStreams(inputFile, outputFile))
 	{
 		return;
 	}
 
+	// We build the tree from the tree builder in the first 510 bytes of the input file.
+	// This method will read the first 510 bytes of the input file, building a huffman tree,
+	// that we will use to decode the file.
 	buildTreeFromTreeBuilder(inputStream, false);
 
-	decodeBytes();
+	decodeBytes(); // Now, we decode each remaining byte of the input stream.
 
-	closeStreams();
+	closeStreams(); // We've finished decoding each byte of the file, so we close our input and output streams.
 
 	printFinalInfo(); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
