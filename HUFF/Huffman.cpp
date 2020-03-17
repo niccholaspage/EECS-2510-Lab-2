@@ -603,7 +603,9 @@ string Huffman::formatUnsignedInt(unsigned int number)
 
 void Huffman::DisplayHelp()
 {
-	cout << "Welcome to the Huffman Project!\n";
+	// This method prints out the usage options of the Huffman program
+	// available to the user.
+	//
 	cout << "Available flags:\n";
 	cout << "-h|-?|-help - Prints out this help\n";
 	cout << "-e file1 [file2] - Encodes file1, placing the encrypted version into file2. If file2 is not specified, file2 will have the same name as file1, minus the extension, which will be .huf.\n";
