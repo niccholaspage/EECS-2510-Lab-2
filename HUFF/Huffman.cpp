@@ -417,23 +417,41 @@ void Huffman::decodeBytes()
 
 void Huffman::encodeBits(unsigned char& outputCharacter, int& currentBit, string& bits)
 {
-	for (unsigned int i = 0; i < bits.length(); i++)
+	// This method encodes the given string of bits into the output character.
+	// The given currentBit keeps track of which bit we are changing in the
+	// output character. Once we hit 8, we write to the output file, reset
+	// our outputCharacter and currentBit, and continue.
+	//
+	for (unsigned int i = 0; i < bits.length(); i++) // Loop through every character of the bits string
 	{
+		// If the character at index i is equal to '1', it means that we need to encode a 1 at the current bit.
+		// Otherwise, we will be encoding a 0 for off.
 		bool on = bits[i] == '1';
 
+		// Here, we are building the output character or byte bit by bit. To turn on a specific bit of of a byte,
+		// we just need to use a bitwise OR operator with it and another byte that just has one bit turned on,
+		// like 0000 1000, for example. Since we are using currentBit to represent the bit we are on, beginning from
+		// the left, we can use it to determine which bit we will be changing. First, we use the bitwise OR equal
+		// operator. We then take our boolean on, which is either true or false, which in, and use the shift
+		// left operator to shift its value of 1 or 0 to the left a certain number of times to represent the
+		// bit we are changing. Our boolean ends up getting implicitly casted as an integer when using this shift
+		// operator. If on is true and currentBit is 0 for example, we would start with the byte 0000 0001, and
+		// then shift it to the left 7 - 0 times, resulting in 1000 0000. Now we bitwise OR it with our output
+		// character and put the result in our output character variable, successfully flipping a bit in our
+		// output character.
 		outputCharacter |= (on << (7 - currentBit));
 
-		currentBit++;
+		currentBit++; // We now increment the currentBit so that we can take care of the next bit inside of our output character.
 
-		if (currentBit == 8)
+		if (currentBit == 8) // If the current bit is 8, we have taken care of all bits inside of the output character.
 		{
-			outputStream.put(outputCharacter);
+			outputStream.put(outputCharacter); // Since we've finished this character, we write it to the output stream,
 
-			bytesOut++;
+			bytesOut++; // increment our bytes out by 1 since we've written a byte,
 
-			outputCharacter = 0;
+			outputCharacter = 0; // reset our output character back to 0,
 
-			currentBit = 0;
+			currentBit = 0; // and reset the current bit back to 0.
 		}
 	}
 }
