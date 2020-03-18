@@ -1,3 +1,17 @@
+//==============================================================================================
+// File: Huffman.cpp - Huffman tree implementation
+// c.f.: Huffman.h
+//
+// This class implements a Huffman tree, filled with nodes based on the frequency of characters
+// appearing in input files. This class allows for the encoding of files, buildin of tree builder
+// files, encoding files with tree builder files, and decoding files.
+//
+// Author:     Nicholas Nassar, University of Toledo
+// Class:      EECS 2510-001 Non-Linear Data Structures, Spring 2020
+// Instructor: Dr.Thomas
+// Date:       Mar 17, 2020
+// Copyright:  Copyright 2020 by Nicholas Nassar. All rights reserved.
+
 #include "Huffman.h"
 
 Huffman::Huffman() : nodes{ nullptr }
@@ -16,7 +30,7 @@ Huffman::~Huffman()
 	// In the destructor, we need to make sure we properly clean up the nodes we had.
 	// To do this, we loop through node in the nodes array.
 	//
-	for (int i = 0; i < amountOfCharacters; i++)
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS; i++)
 	{
 		if (nodes[i] != nullptr) // If a node exists at element i in the nodes array...
 		{
@@ -56,7 +70,7 @@ int Huffman::getIndexOfSmallestNode(int skipIndex)
 	int smallestNodeIndex = -1; // Set up a variable to keep track of the index of the smallest node
 	unsigned int smallestWeight = UINT_MAX; // Initialize the smallest weight to the maximum unsigned integer.
 
-	for (int i = 0; i < amountOfCharacters; i++) // Loop through every node in the nodes array
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS; i++) // Loop through every node in the nodes array
 	{
 		if (skipIndex == i) // If i is the index we want to skip,
 		{
@@ -89,7 +103,7 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 	// write to output parameter is on, the bytes will be written
 	// to the output stream.
 	//
-	for (int i = 0; i < amountOfCharacters; i++) // We want to loop through every index in the nodes array,
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS; i++) // We want to loop through every index in the nodes array,
 	{
 		treenode* node = new treenode; // construct a new treenode,
 
@@ -102,7 +116,7 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 	}
 
 	// TODO: WHAT HAPPENS IF WE DON'T HAVE A FILE THIS BIG?
-	for (int i = 0; i < amountOfCharacters - 1; i++) // Since we are combining nodes based on 510 bytes, we do 255 iterations, or 255 combinations.
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS - 1; i++) // Since we are combining nodes based on 510 bytes, we do 255 iterations, or 255 combinations.
 	{
 		unsigned char leftIndex = stream.get();		// We get the character representing the left index of the nodes we are going to combine,
 		unsigned char rightIndex = stream.get();	// and we also get the character representing the right index.
@@ -140,9 +154,9 @@ void Huffman::buildTree()
 	//
 	// We start by creating an array of unsigned integers that keep track of the amount
 	// of times a character occurs in the input file.
-	unsigned int frequencyTable[amountOfCharacters];
+	unsigned int frequencyTable[AMOUNT_OF_CHARACTERS];
 
-	for (int i = 0; i < amountOfCharacters; i++) // We want to loop through each index of the frequency table array,
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS; i++) // We want to loop through each index of the frequency table array,
 	{
 		frequencyTable[i] = 0; // and initialize its value to 0.
 	}
@@ -163,7 +177,7 @@ void Huffman::buildTree()
 		bytesIn++; // We increment the bytes in by one, since we have read another byte of the file.
 	}
 
-	for (int i = 0; i < amountOfCharacters; i++) // We now want to loop through every index of the nodes array.
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS; i++) // We now want to loop through every index of the nodes array.
 	{
 		unsigned char symbol = i;		// We set our symbol to i, which will implicitly cast the int into an unsigned char.
 
@@ -177,7 +191,7 @@ void Huffman::buildTree()
 		nodes[i] = node; // Now that we've finished building our node, we set the element at index i of the nodes array to our node.
 	}
 
-	for (int i = 0; i < amountOfCharacters - 1; i++) // Since we are combining 256 nodes, we need to do 255 iterations.
+	for (int i = 0; i < AMOUNT_OF_CHARACTERS - 1; i++) // Since we are combining 256 nodes, we need to do 255 iterations.
 	{
 		// We first get the smallest node index, passing -1 as our skip index since we don't want to skip any node.
 		int smallestNodeIndex = getIndexOfSmallestNode(-1);

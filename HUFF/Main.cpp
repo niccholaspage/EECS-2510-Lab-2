@@ -1,3 +1,17 @@
+//==============================================================================================
+// Main.cpp - Huffman program
+//
+// This program implements the Huffman code algorithm, allowing for users to encode and decode
+// files. The program encodes files by building a Huffman tree based on the frequency of
+// characters in the file, and encodes each character of the file. In doing so, files may
+// be smaller than their original size, so Huffman coding can be used as a form of compression.
+//
+// Author:     Nicholas Nassar, University of Toledo
+// Class:      EECS 2510-001 Non-Linear Data Structures, Spring 2020
+// Instructor: Dr.Thomas
+// Date:       Mar 17, 2020
+// Copyright:  Copyright 2020 by Nicholas Nassar. All rights reserved.
+
 #include <iostream>
 
 #include "Huffman.h"

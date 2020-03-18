@@ -1,3 +1,12 @@
+//==============================================================================================
+// File: Huffman.h - Huffman tree
+//
+// Author:     Nicholas Nassar, University of Toledo
+// Class:      EECS 2510-001 Non-Linear Data Structures, Spring 2020
+// Instructor: Dr.Thomas
+// Date:       Mar 17, 2020
+// Copyright:  Copyright 2020 by Nicholas Nassar. All rights reserved.
+
 #pragma once
 
 #include <fstream>
@@ -25,10 +34,12 @@ private:
 		treenode* rightChild = nullptr;	// A pointer to the right child of the node
 	};
 
-	const static int amountOfCharacters = 256;
+	// A constant representing the amount of possible characters in a file. Each byte
+	//  of a file can range from 0 to 255, so there are 256 different possibilities.
+	const static int AMOUNT_OF_CHARACTERS = 256;
 
-	treenode* nodes[amountOfCharacters];		// An array of node pointers used to build the Huffman tree and encode/decode files.
-	string encodingTable[amountOfCharacters];	// A string array containing the encoding bits for each type of character
+	treenode* nodes[AMOUNT_OF_CHARACTERS];		// An array of node pointers used to build the Huffman tree and encode/decode files.
+	string encodingTable[AMOUNT_OF_CHARACTERS];	// A string array containing the encoding bits for each type of character
 	string paddingBits;		// A string referring to padding bits that can be written at the end of a byte if extra bits are needed.
 	ifstream inputStream;	// An input file stream used for the input file that will be encoded/decoded
 	ofstream outputStream;	// An output file stream used for the file that will be written to
