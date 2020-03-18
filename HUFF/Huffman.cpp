@@ -598,7 +598,7 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 	}
 
 	// We build the tree from the tree builder in the first 510 bytes of the input file.
-	// This method will read the first 510 bytes of the input file, building a huffman tree,
+	// This method will read the first 510 bytes of the tree stream file, building a huffman tree,
 	// that we will use to encode the file. By passing true as the second parameter if this method,
 	// it will write the tree builder bytes to the output stream so that the file can be decoded properly.
 	buildTreeFromTreeBuilder(treeStream, true);
