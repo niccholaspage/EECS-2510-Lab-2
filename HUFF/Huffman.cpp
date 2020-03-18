@@ -567,6 +567,10 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 	// that we will use to decode the file.
 	buildTreeFromTreeBuilder(inputStream, false);
 
+	// We need to add 510 bytes to the bytes we've read in, since we read the first 510 bytes.
+	// The buildTreeFromTreeBuilder method does not do this, so I'm just doing it here instead.
+	bytesIn += 510;
+
 	decodeBytes(); // Now, we decode each remaining byte of the input stream.
 
 	closeStreams(); // We've finished decoding each byte of the file, so we close our input and output streams.
