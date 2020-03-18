@@ -20,7 +20,24 @@ using namespace std;
 
 string replaceExtension(const string& fileName, const string& extension)
 {
-	return fileName.substr(0, fileName.find('.')) + "." + extension;
+	// This method simply replaces the extension of the given filename with
+	// the given file extension. If a file doesn't have an extension, the
+	// given extension will just be added on to the file's name.
+	//
+
+	// We first need to find the position of the first dot in the file name.
+	size_t dotPosition = fileName.find('.');
+
+	if (dotPosition == string::npos)		// If there is no dot in the file name,
+	{
+		return fileName + "." + extension;	// we simply add a dot and the extension to the file name and return it.
+	}
+	else
+	{
+		// Otherwise, we take a substring of the file name from the beginning to the dot,
+		// and add a dot and the extension to it, then return it
+		return fileName.substr(0, dotPosition) + "." + extension;
+	}
 }
 
 
@@ -118,15 +135,19 @@ void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 
 int main(int argc, char* argv[])
 {
-	cout.setf(ios::fixed);
-	cout.setf(ios::showpoint);
-	cout.precision(3);
+	// This is the entry point of the application, so we first set the parameters of cout for proper output,
+	// construct the huffman tree and handle the commandline parameters given to the program.
+	//
+	cout.setf(ios::fixed); // Set the formatting of cout to be fixed for floating point numbers
+	cout.setf(ios::showpoint); // Set the formatting of cout to display the decimal point for all floating point values
+	cout.precision(3); // Sets the decimal precision of cout
 
-	Huffman* huffman = new Huffman();
+	Huffman* huffman = new Huffman(); // Construct a new Huffman instance
 
+	// Handle the commandline parameters, passing in the amount of arguments, arguments themselves, and Huffman instance
 	handleCommandLineParameters(argc, argv, huffman);
 
-	delete huffman;
+	delete huffman; // We delete the huffman instace before ending the program
 
-	return 0;
+	return 0; // We return 0, as we have not experienced an error, and our program has exited!
 }
