@@ -532,9 +532,9 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 	// decode the remaining bytes of the input file. We then finish up by closing
 	// the streams and printing our final info.
 	//
-	if (!openStreams(inputFile, outputFile))
+	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
 	{
-		return;
+		return; // we return, since we can't do anything.
 	}
 
 	// We build the tree from the tree builder in the first 510 bytes of the input file.
@@ -551,33 +551,44 @@ void Huffman::DecodeFile(string inputFile, string outputFile)
 
 void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outputFile)
 {
-	if (!openStreams(inputFile, outputFile))
+	// This method encodes the given input file into the given output file, but
+	// uses the given tree file to build the Huffman tree. To do this, we open the streams,
+	// build a Huffman tree from the tree file, build our encoding table for each character,
+	// and encode the bytes. We then finish up by closing the streams and printing our final info.
+	//
+	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
 	{
-		return;
+		return; // we return, since we can't do anything.
 	}
 
-	ifstream treeStream;
+	ifstream treeStream; // We declare another ifstream so we can read our tree file.
 
+	// Open the tree stream with the tree file as the path. We need to open the stream in binary mode,
+	// since we are going to read the file in binary instead of text.
 	treeStream.open(TreeFile, ios::binary);
 
-	if (treeStream.fail())
+	if (treeStream.fail()) // If the tree stream fails to open,
 	{
-		cout << "Unable to open tree file." << endl;
+		cout << "Unable to open tree file." << endl; // we print a message saying we couldn't open the tree file,
 
-		closeStreams();
+		closeStreams(); // close out the other streams since they are open by this point,
 
-		return;
+		return; // and return because we are done at this point.
 	}
 
+	// We build the tree from the tree builder in the first 510 bytes of the input file.
+	// This method will read the first 510 bytes of the input file, building a huffman tree,
+	// that we will use to encode the file. By passing true as the second parameter if this method,
+	// it will write the tree builder bytes to the output stream so that the file can be decoded properly.
 	buildTreeFromTreeBuilder(treeStream, true);
 
-	treeStream.close();
+	treeStream.close(); // Close the tree stream since we've finished building our Huffman tree
 
-	buildEncodingTable();
+	buildEncodingTable(); // We build the encoding table so we can encode each character of the input file.
 
-	encodeBytes();
+	encodeBytes(); // Now we encode each byte of the input stream.
 
-	closeStreams();
+	closeStreams(); // We've finished encoding each byte of the file, so we close our input and output streams.
 
 	printFinalInfo(); // We're done, so we can print the elapsed time and amount of bytes in and out.
 }
