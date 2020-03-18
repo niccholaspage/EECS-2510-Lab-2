@@ -51,7 +51,7 @@ private:
 	bool openStreams(string inputFile, string outputFile); // Opens the input and output streams for the given input and output files
 	void closeStreams(); // Closes out both the input and output streams
 	int getIndexOfSmallestNode(int skipIndex); // Returns the smallest node index in the array, skipping the given index
-	void buildTree(); // Builds the tree of nodes by reading the input file and determining frequencies and writes the combinations of nodes to the output stream
+	void buildTree(bool incrementBytesIn); // Builds the tree of nodes by reading the input file and determining frequencies and writes the combinations of nodes to the output stream
 	void buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput); // Builds the tree of nodes by combining nodes based on the given stream.
 	void buildEncodingTable(); // Builds the encoding table, which is used to encode each character in a file
 	void buildEncodingTable(treenode* node, string currentPath); // Recursively builds encoding table by starting at the given node and traversing through its children

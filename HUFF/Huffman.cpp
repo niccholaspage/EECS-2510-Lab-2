@@ -146,7 +146,7 @@ void Huffman::buildTreeFromTreeBuilder(ifstream& stream, bool writeToOutput)
 	}
 }
 
-void Huffman::buildTree()
+void Huffman::buildTree(bool incrementBytesIn)
 {
 	// This method builds the Huffman tree by determining the frequencies of each character in the input file,
 	// constructing tree nodes for each character, then combining the two smallest nodes until we are left with
@@ -174,7 +174,10 @@ void Huffman::buildTree()
 
 		frequencyTable[symbol]++; // We increment the frequency at the index of the symbol by 1. In this case, symbol implicitly is casted into an int.
 
-		bytesIn++; // We increment the bytes in by one, since we have read another byte of the file.
+		if (incrementBytesIn) // If we should increment bytes in,
+		{
+			bytesIn++; // We increment our bytes in counter since we have read a byte.
+		}
 	}
 
 	for (int i = 0; i < AMOUNT_OF_CHARACTERS; i++) // We now want to loop through every index of the nodes array.
@@ -364,8 +367,8 @@ void Huffman::MakeTreeBuilder(string inputFile, string outputFile)
 
 	// We build the tree. This method will read the bytes of the input file, building a frequency table
 	// and huffman tree. This method will write the bytes needed for the tree builder as it builds the
-	// huffman tree to the output file.
-	buildTree();
+	// huffman tree to the output file. Since we want to increment the bytes in here, we pass in true.
+	buildTree(true);
 
 	closeStreams(); // We've finished building the tree builder file so we close our input and output streams.
 
@@ -505,6 +508,8 @@ void Huffman::encodeBytes()
 		string& bitString = encodingTable[symbol]; // We get the bit string for encoding the symbol we read from the file.
 
 		encodeBits(outputCharacter, currentBit, bitString); // We encode the bits of the symbol into our output character.
+
+		bytesIn++; // We increment the bytes in by one, since we have read another byte of the file.
 	}
 
 	// At this point, we may be in the middle of an output character, and we don't to forget to write some
@@ -531,8 +536,9 @@ void Huffman::EncodeFile(string inputFile, string outputFile)
 
 	// We build the tree. This method will read the bytes of the input file, building a frequency table
 	// and huffman tree. This method will write the bytes needed for the tree builder as it builds the
-	// huffman tree to the output file.
-	buildTree();
+	// huffman tree to the output file. Since we don't want to increment the bytes here, we pass in
+	// false.
+	buildTree(false);
 
 	buildEncodingTable(); // We build the encoding table so we can encode each character of the input file.
 
