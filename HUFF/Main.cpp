@@ -43,93 +43,111 @@ string replaceExtension(const string& fileName, const string& extension)
 
 void handleCommandLineParameters(int argc, char* argv[], Huffman* huffman)
 {
+	// This method handles the commandline parameters and runs the proper
+	// method of the Huffman class. It also automatically passes in output
+	// file names automatically for encoding commands.
+	//
+	// If there is only one argument, which is the path of the executable, the user did not provide any flags.
 	if (argc < 2)
 	{
-		cout << "No flags given! Here is some help!" << endl;
+		cout << "No flags given! Here is some help!" << endl; // Print out that no flags were given,
 
-		huffman->DisplayHelp();
+		huffman->DisplayHelp(); // Display help to the user so they can see how to use the program.
 
-		return;
+		return; // We're done here, so now we return.
 	}
 
-	string flag = argv[1];
+	string flag = argv[1]; // The first argument is the flag the user passed in.
 
-	if (flag[0] != '-' || flag.length() < 2)
+	if (flag[0] != '-' || flag.length() < 2) // If the flag doesn't start with a - or is only one character long,
 	{
-		cout << "Invalid flag format!" << endl;
+		cout << "Invalid flag format!" << endl; // it is incorrectly formatted, so print that out.
 
-		return;
+		return; // We're done here, so now we return.
 	}
 
-	for (unsigned int i = 0; i < flag.length(); i++)
+	for (unsigned int i = 0; i < flag.length(); i++) // Loop through every character in the flag string,
 	{
-		flag[i] = tolower(flag[i]);
+		flag[i] = tolower(flag[i]); // and make it lowercase, therefore making the entire string lowercase.
 	}
 
-	string command = flag.substr(1);
+	string command = flag.substr(1); // Since the flag will always start with a dash, we strip it out and just focus on the command.
 
-	if (command == "h" || command == "?" || command == "help")
+	if (command == "h" || command == "?" || command == "help") // If the command is h, ?, or help,
 	{
-		huffman->DisplayHelp();
+		huffman->DisplayHelp(); // we just display the help and we're done.
 	}
-	else if (command == "e")
+	else if (command == "e") // If the command is e, we are going to encode a file.
 	{
-		if (argc < 3)
+		if (argc < 3) // If we have less than 3 arguments, we are missing the input file path,
 		{
-			cout << "not enough arguments!" << endl;
+			cout << "Missing arguments!" << endl; // so we print that we are missing arguments.
 		}
-		else
+		else // Otherwise,
 		{
-			string input_path = argv[2];
+			string input_path = argv[2]; // we get our input path,
 
+			// get our output path, which is either the 3rd argument, or automatically
+			// calculated from the input path.
 			string output_path = argc < 4 ? replaceExtension(input_path, "huf") : argv[3];
 
+			// We then tell our Huffman instance to encode the file at the input path to the given output path.
 			huffman->EncodeFile(input_path, output_path);
 		}
 	}
-	else if (command == "d")
+	else if (command == "d") // If the command is d, we are going to decode a file.
 	{
-		if (argc < 4)
+		if (argc < 4) // If we have less than 3 arguments, we are missing the input or output file path,
 		{
-			cout << "not enough arguments!" << endl;
+			cout << "Missing arguments!" << endl; // so we print that we are missing arguments.
 		}
-		else
+		else // otherwise,
 		{
+			// we tell our Huffman instance to decode the file, passing in the input and output file paths.
 			huffman->DecodeFile(argv[2], argv[3]);
 		}
 	}
-	else if (command == "t")
+	else if (command == "t") // If the command is t, we are going to make the tree builder file.
 	{
-		if (argc < 3)
+		if (argc < 3) // If we have less than 3 arguments, we are missing the input file path,
 		{
-			cout << "not enough arguments!" << endl;
+			cout << "Missing arguments!" << endl; // so we print that we are missing arguments.
 		}
-		else
+		else // otherwise,
 		{
-			string input_path = argv[2];
+			string input_path = argv[2]; // we get our input path,
 
+			// get our output path, which is either the 3rd argument, or automatically
+			// calculated from the input path.
 			string output_path = argc < 4 ? replaceExtension(input_path, "htree") : argv[3];
 
+			// We then tell our Huffman instance to make a tree builder file, using the
+			// input path and writing to the output path.
 			huffman->MakeTreeBuilder(input_path, output_path);
 		}
 	}
-	else if (command == "et")
+	else if (command == "et") // Finally, if the command is et, we are going to encode a file with the tree builder file.
 	{
-		if (argc < 4)
+		if (argc < 4) // If we have less than 3 arguments, we are missing the input or tree builder file path,
 		{
-			cout << "not enough arguments!" << endl;
+			cout << "Missing arguments!" << endl; // so we print that we are missing arguments.
 		}
 		else
 		{
-			string input_path = argv[2];
+			string input_path = argv[2]; // we get our input path,
 
+			// get our output path, which is either the 4rd argument, or automatically
+			// calculated from the input path.
 			string output_path = argc < 5 ? replaceExtension(input_path, "huf") : argv[4];
 
+			// We then tell our Huffman instance to encode the input file with our tree file path
+			// into the output file path.
 			huffman->EncodeFileWithTree(input_path, argv[3], output_path);
 		}
 	}
-	else {
-		cout << "Invalid flag!" << endl;
+	else
+	{
+		cout << "Invalid flag!" << endl; // Otherwise, the user didn't give a valid flag, so we say so.
 	}
 }
 
