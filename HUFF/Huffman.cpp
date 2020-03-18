@@ -420,6 +420,11 @@ void Huffman::decodeBytes()
 		// cast it into a unsigned char.
 		unsigned char byte = character;
 
+		// An interesting thing to note is that I had tested writing this in a different way. I made a
+		// member variables that was an int array with the powers of 2, from 1 to 128, and I would loop
+		// through each power and I inlined the navigateTree method in the for loop. Somehow, that performed
+		// worse (although only very slightly) than having a navigateTree method and calling it 8 times,
+		// so I stuck with this method, even though there are quite a bit of repeated lines.
 		navigateTree(byte, 128, currentNode); // Use the navigateTree method to go to the correct node's child based on the first bit from the left
 		navigateTree(byte, 64, currentNode); // Use the navigateTree method to go to the correct node's child based on the second bit
 		navigateTree(byte, 32, currentNode); // Use the navigateTree method to go to the correct node's child based on the third bit
