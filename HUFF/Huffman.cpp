@@ -575,11 +575,8 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 	// build a Huffman tree from the tree file, build our encoding table for each character,
 	// and encode the bytes. We then finish up by closing the streams and printing our final info.
 	//
-	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
-	{
-		return; // we return, since we can't do anything.
-	}
-
+	// If we don't open the tree stream first and make sure its valid, we will accidentally create
+	// an empty output file on failure of opening the tree stream file.
 	ifstream treeStream; // We declare another ifstream so we can read our tree file.
 
 	// Open the tree stream with the tree file as the path. We need to open the stream in binary mode,
@@ -593,6 +590,11 @@ void Huffman::EncodeFileWithTree(string inputFile, string TreeFile, string outpu
 		closeStreams(); // close out the other streams since they are open by this point,
 
 		return; // and return because we are done at this point.
+	}
+
+	if (!openStreams(inputFile, outputFile)) // If we are unable to open the input and output streams,
+	{
+		return; // we return, since we can't do anything.
 	}
 
 	// We build the tree from the tree builder in the first 510 bytes of the input file.
