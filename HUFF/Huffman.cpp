@@ -518,7 +518,21 @@ void Huffman::encodeBytes()
 	// those bits and our file will be taken care of.
 	if (currentBit != 0)
 	{
-		encodeBits(outputCharacter, currentBit, paddingBits); // Encode the padding bits into our output character.
+		int currentBitInBitString = 0;
+
+		while (currentBit != 8)
+		{
+			bool on = paddingBits[currentBitInBitString] == '1';
+
+			outputCharacter |= (on << (7 - currentBit));
+
+			currentBit++;
+			currentBitInBitString++;
+		}
+
+		outputStream.put(outputCharacter); // Since we've finished this character, we write it to the output stream,
+
+		bytesOut++; // increment our bytes out by 1 since we've written a byte,
 	}
 }
 
